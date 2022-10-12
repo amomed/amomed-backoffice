@@ -12,10 +12,14 @@ import { ImageService } from '../../service/ImageService';
 
 
 const EditBrand = ({categories,rowData,updateSubCategory}) => {
+    const imageService = new ImageService()
     const [dialogVisibility, setDialogVisibility] = useState(false);
     const [content] = useState(rowData);
+    const [numberFiles, setNumberFiles] = useState(0)
     const hideDialog = () => setDialogVisibility(false)
     const openModal = () => setDialogVisibility(true)
+    let fileUploadRef = useRef(null)
+    const [loading,setLoading] = useState(false);
 
     const initialValues = {
         _id:content._id,
@@ -32,15 +36,23 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
     })
 
     const onSubmit = async (values,actions) => {
-        const data = {
-            nameUnderCategory: values.name,
-            category: {
-                _id: values.category
-            },
-            active: values.status
+       if(values.deletedImage != null ){
+            fileUploadRef.upload()
+            hideDialog()
         }
-       await updateSubCategory(values._id,data)
-       hideDialog()
+        else {
+            const data = {
+                nameUnderCategory: values.name,
+                category: {
+                    _id: values.category
+                },
+                active: values.status,
+                photo: {url: values.image}
+            }
+            await updateSubCategory(values._id,data)
+            hideDialog()
+        }
+       
     }
 
     const clearUrl = (url,setFieldValue)=>{
@@ -54,31 +66,47 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
     const myUploader = async(values,event) => {
         const files = event.files
         const blob = await fetch(files[0].objectURL).then(r => r.blob()); //get blob url
-        const category_url = await imageService.uploadImage(blob,`categories/${files[0].name}`) // upload to firebase and get url
+        const category_url = await imageService.uploadImage(blob,`brands/${files[0].name}`) // upload to firebase and get url
         const data = {
-            nameCategory: values.name,
-            active : values.status,
-            photo : { url: category_url.data }
+            nameUnderCategory: values.name,
+            category: {
+                _id: values.category
+            },
+            active: values.status,
+            photo: {url: category_url.data}
         }
         await imageService.deletImage(values.deletedImage)
-        await updateCtagory(_id,data)
+        await updateSubCategory(values._id,data)
         fileUploadRef.clear()
     }
 
     //when an image added
     const onTemplateSelect = (e,setFieldValue) => {
+        setNumberFiles(1)
         setFieldValue('image','image')
     }
 
     //when an image removed
     const onTemplateRemove = (e,setFieldValue) => {
+        setNumberFiles(0)
         setFieldValue('image',null)
     }
 
     //when all images removed
     const onTemplateClear = (e,setFieldValue) => {
+        setNumberFiles(0)
         setFieldValue('image',null)
 
+    }
+
+    const headerTemplate = (options) => {
+        const { className, chooseButton, cancelButton } = options;
+        return (
+            <div className={className} style={{backgroundColor: 'transparent', display: 'flex', alignItems: 'center'}}>
+                {numberFiles === 0 && chooseButton}
+                {cancelButton}
+            </div>
+        );
     }
 
 
@@ -94,7 +122,7 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         {({ 
             handleChange,handleBlur, 
-            handleSubmit,isSubmitting, values, 
+            handleSubmit,isSubmitting, values, setFieldValue,
             errors, touched })=>{
                 
             const isFormFieldValid = (name) => !!(touched[name] && errors[name]);
@@ -137,6 +165,17 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
             <InputSwitch checked={values.status} 
             onChange={handleChange('status')} />
             </div>
+            {/* IMAGE DISPLAY */}
+            {values.deletedImage == null
+            && <div className="field flex align-items-center ">
+            <img src={values.image} alt={values.name} width='100'/>
+            <Button 
+            loading={loading}
+            onClick={()=> clearUrl(values.image,setFieldValue) }
+            icon="pi pi-times"
+            className='ml-2 p-button-rounded p-button-outlined p-button-danger'/>
+            </div>
+            }
             {/* template image */}
             {values.deletedImage !== null && 
             <FileUpload 

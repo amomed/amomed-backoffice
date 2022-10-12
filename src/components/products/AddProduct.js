@@ -141,14 +141,6 @@ const AddProduct = () => {
         active: Yup.bool(),
     })
 
-    const renderFooter = () => {
-        return (
-            <div>
-                <Button label="annuler" className='w-auto p-button-text mr-2' icon="pi pi-times" onClick={hideDialog}/>
-                <Button onClick={() => console.log("pressed")} label="sauvegarder" className='w-auto p-button-text p-button-success' icon="pi pi-check" />
-            </div>
-        );
-    }
 
     const headerTemplate = (options) => {
         const { className, chooseButton, uploadButton, cancelButton } = options;
