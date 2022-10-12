@@ -1,0 +1,154 @@
+{
+    "data": [
+        {
+            "id": "10u00",
+            "reference": "f230fh0g3",
+            "nameProduct": "clutches",
+            "category": "gynéco",
+            "underCategory": "",
+            "priceProduct":210,
+            "photos" : [
+                {
+                    "id":"12354",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"123s54",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"1a23xw54",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"1a2qsv354",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"1a23sss54",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"1a2fg354",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"14",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"1",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                }
+            ],
+            "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            "quantityStock": 160,
+            "minOrderQuantity": 5,
+            "active": true
+        },
+        {
+            "id": "100a0",
+            "reference": "f230fh0g3",
+            "nameProduct": "blue face mask",
+            "category": "produit medicale",
+            "priceProduct":50,
+            "photos" : [
+                {
+                    "id":"12354",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"123s54",
+                    "url": ""
+                },
+                {
+                    "id":"1a2354",
+                    "url": ""
+                }
+            ],
+            "description": "description",
+            "quantityStock": 200,
+            "minOrderQuantity": 5,
+            "active": true
+        },
+        {
+            "id": "y00",
+            "reference": "f230fh0g3",
+            "nameProduct": "medical gloves",
+            "category": "pédiatre",
+            "underCategory": "durax",
+            "priceProduct":30,
+            "photos" : [
+                {
+                    "id":"12354",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"123s54",
+                    "url": ""
+                },
+                {
+                    "id":"1a2354",
+                    "url": ""
+                }
+            ],
+            "description": "description",
+            "quantityStock": 20,
+            "minOrderQuantity": 5,
+            "active": false
+        },
+        {
+            "id": "100",
+            "reference": "f230fh0g3",
+            "nameProduct": "blue face mask",
+            "category": "bébé",
+            "underCategory": "madela",
+            "priceProduct":99,
+            "photos" : [
+                {
+                    "id":"12354",
+                    "url": ""
+                },
+                {
+                    "id":"123s54",
+                    "url": ""
+                },
+                {
+                    "id":"1a2354",
+                    "url": ""
+                }
+            ],
+            "description": "description",
+            "quantityStock": 10,
+            "minOrderQuantity": 5,
+            "active": true
+        },
+        {
+            "id": "1000",
+            "reference": "f230fh0g3",
+            "nameProduct": "blue face mask",
+            "category": "produit medicale",
+            "underCategory": "armex",
+            "priceProduct":49,
+            "photos" : [
+                {
+                    "id":"12354",
+                    "url": "https://www.pngmart.com/files/21/Face-Mask-PNG-Isolated-Pic.png"
+                },
+                {
+                    "id":"123s54",
+                    "url": ""
+                },
+                {
+                    "id":"1a2354",
+                    "url": ""
+                }
+            ],
+            "description": "description",
+            "quantityStock": 5,
+            "minOrderQuantity": 5,
+            "active": false
+        }
+    ]
+}
+    

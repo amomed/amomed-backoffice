@@ -1,0 +1,297 @@
+[
+    {
+        "id": "0",
+        "ville": "Toutes les villes",
+        "region": "9"
+    },
+    {
+        "id": "1",
+        "ville": "Agadir",
+        "region": "9"
+    },
+    {
+        "id": "2",
+        "ville": "Agdz",
+        "region": "8"
+    },
+    {
+        "id": "16",
+        "ville": "Al Hoceïma‎",
+        "region": "1"
+    },
+    {
+        "id": "29",
+        "ville": "Assilah",
+        "region": "1"
+    },
+    {
+        "id": "32",
+        "ville": "Azilal",
+        "region": "5"
+    },
+    {
+        "id": "45",
+        "ville": "Aït Hichem‎",
+        "region": "1"
+    },
+    {
+        "id": "62",
+        "ville": "Berkane",
+        "region": "2"
+    },
+    {
+        "id": "63",
+        "ville": "Berrechid",
+        "region": "6"
+    },
+    {
+        "id": "67",
+        "ville": "Bir Jdid",
+        "region": "6"
+    },
+    {
+        "id": "81",
+        "ville": "Boujdour‎",
+        "region": "11"
+    },
+    {
+        "id": "87",
+        "ville": "Bouskoura",
+        "region": "6"
+    },
+    {
+        "id": "88",
+        "ville": "Bouznika",
+        "region": "6"
+    },
+    {
+        "id": "92",
+        "ville": "Béni Mellal",
+        "region": "5"
+    },
+    {
+        "id": "93",
+        "ville": "Casablanca",
+        "region": "6"
+    },
+    {
+        "id": "94",
+        "ville": "Chefchaouen",
+        "region": "1"
+    },
+    {
+        "id": "111",
+        "ville": "El Borouj",
+        "region": "6"
+    },
+    {
+        "id": "112",
+        "ville": "El Gara",
+        "region": "6"
+    },
+    {
+        "id": "116",
+        "ville": "El Jadida",
+        "region": "6"
+    },
+    {
+        "id": "119",
+        "ville": "El Marsa‎",
+        "region": "11"
+    },
+    {
+        "id": "124",
+        "ville": "Errachidia",
+        "region": "8"
+    },
+    {
+        "id": "125",
+        "ville": "Es-Semara",
+        "region": "11"
+    },
+    {
+        "id": "126",
+        "ville": "Essaouira",
+        "region": "7"
+    },
+    {
+        "id": "135",
+        "ville": "Fès",
+        "region": "3"
+    },
+    {
+        "id": "154",
+        "ville": "Ifrane",
+        "region": "3"
+    },
+    {
+        "id": "162",
+        "ville": "Imintanoute",
+        "region": "7"
+    },
+    {
+        "id": "167",
+        "ville": "Inezgane",
+        "region": "9"
+    },
+    {
+        "id": "189",
+        "ville": "Khemis Zemamra",
+        "region": "6"
+    },
+    {
+        "id": "191",
+        "ville": "Khouribga",
+        "region": "5"
+    },
+    {
+        "id": "193",
+        "ville": "Khémisset",
+        "region": "4"
+    },
+    {
+        "id": "194",
+        "ville": "Khénifra",
+        "region": "5"
+    },
+    {
+        "id": "195",
+        "ville": "Ksar El Kébir",
+        "region": "1"
+    },
+    {
+        "id": "196",
+        "ville": "Kénitra",
+        "region": "4"
+    },
+    {
+        "id": "198",
+        "ville": "Laayoune‎",
+        "region": "11"
+    },
+    {
+        "id": "203",
+        "ville": "Larache",
+        "region": "1"
+    },
+    {
+        "id": "209",
+        "ville": "M'diq",
+        "region": "1"
+    },
+    {
+        "id": "214",
+        "ville": "Marrakech",
+        "region": "7"
+    },
+    {
+        "id": "215",
+        "ville": "Martil",
+        "region": "1"
+    },
+    {
+        "id": "220",
+        "ville": "Meknès‎",
+        "region": "3"
+    },
+    {
+        "id": "224",
+        "ville": "Mohammadia",
+        "region": "6"
+    },
+    {
+        "id": "236",
+        "ville": "Médiouna",
+        "region": "6"
+    },
+    {
+        "id": "238",
+        "ville": "Nador",
+        "region": "2"
+    },
+    {
+        "id": "240",
+        "ville": "Oualidia",
+        "region": "6"
+    },
+    {
+        "id": "243",
+        "ville": "Ouarzazate",
+        "region": "8"
+    },
+    {
+        "id": "244",
+        "ville": "Ouazzane",
+        "region": "1"
+    },
+    {
+        "id": "272",
+        "ville": "Rabat",
+        "region": "4"
+    },
+    {
+        "id": "279",
+        "ville": "Safi",
+        "region": "7"
+    },
+    {
+        "id": "280",
+        "ville": "Salé",
+        "region": "4"
+    },
+    {
+        "id": "282",
+        "ville": "Saïdia",
+        "region": "2"
+    },
+    {
+        "id": "283",
+        "ville": "Sebt El Maârif",
+        "region": "6"
+    },
+    {
+        "id": "287",
+        "ville": "Settat",
+        "region": "6"
+    },
+    {
+        "id": "306",
+        "ville": "Sidi Rahhal",
+        "region": "7"
+    },
+    {
+        "id": "314",
+        "ville": "Skhirate",
+        "region": "4"
+    },
+    {
+        "id": "328",
+        "ville": "Taghzout",
+        "region": "1"
+    },
+    {
+        "id": "346",
+        "ville": "Tanger‎",
+        "region": "1"
+    },
+    {
+        "id": "355",
+        "ville": "Taza‎",
+        "region": "3"
+    },
+    {
+        "id": "370",
+        "ville": "Tit Mellil",
+        "region": "6"
+    },
+    {
+        "id": "381",
+        "ville": "Témara",
+        "region": "4"
+    },
+    {
+        "id": "382",
+        "ville": "Tétouan‎",
+        "region": "1"
+    }
+]

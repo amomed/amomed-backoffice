@@ -1,0 +1,82 @@
+{
+    "data": [
+        {
+            "id": "10u00",
+            "ice": "f230fh0g3",
+            "businessName": "pharmacie ritaj",
+            "phone": "0624514500",
+            "address": "hay el baraka 2 rue 2 nr 42",
+            "type":"pharmacie",
+            "ville": "Rabat",
+            "password": "123456789",
+            "active": true
+        },
+        {
+            "id": "10u0r0",
+            "ice": "f230fh0g3",
+            "businessName": "para nada",
+            "phone": "0624514500",
+            "address": "ain chok",
+            "type":"parapharmacie",
+            "ville": "Safi",
+            "password": "123456789",
+            "active": true
+        },
+        {
+            "id": "10wu0r0",
+            "ice": "f230fh0g3",
+            "businessName": "para nada",
+            "phone": "0624514500",
+            "address": "ain chok",
+            "type":"medecin",
+            "ville": "Safi",
+            "password": "123456789",
+            "active": true
+        },
+        {
+            "id": "100",
+            "ice": "f230fh0g3",
+            "businessName": "para nada",
+            "phone": "0624514500",
+            "address": "ain chok",
+            "type":"parapharmacie",
+            "ville": "Safi",
+            "password": "123456789",
+            "active": true
+        },
+        {
+            "id": "10u0z0",
+            "ice": "f230fh0g3",
+            "businessName": "clinic tazi",
+            "phone": "0624514500",
+            "address": "ain sebaa block 23",
+            "type":"clinic",
+            "ville": "Casablanca",
+            "password": "123456789",
+            "active": false
+        },
+        {
+            "id": "10uq00",
+            "ice": "f230fh0g3",
+            "businessName": "docteur mohammed bencekroun",
+            "phone": "0624514500",
+            "address": "hay el houda",
+            "type":"medecin",
+            "ville": "Témara",
+            "password": "123456789",
+            "active": true
+        },
+        {
+            "id": "10uq00",
+            "ice": "f230fh0g3",
+            "businessName": "docteur mohammed bencekroun",
+            "phone": "0624514500",
+            "address": "hay el houda",
+            "type":"parapharmacie",
+            "ville": "Casablanca",
+            "password": "123456789",
+            "active": true
+        }
+    ]
+}
+    

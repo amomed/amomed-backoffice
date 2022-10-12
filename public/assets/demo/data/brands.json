@@ -1,0 +1,21 @@
+{"data":[
+    {
+      "id":0,
+      "name":"madela",
+      "img":"https://findlogovector.com/wp-content/uploads/2018/10/medela-logo-vector.png",
+      "isActive":true
+    },
+    {
+      "id":1,
+      "name":"camex",
+      "img":"https://findlogovector.com/wp-content/uploads/2018/10/medela-logo-vector.png",
+      "isActive":true
+    },
+    {
+      "id":2,
+      "name":"ordic",
+      "img":"https://findlogovector.com/wp-content/uploads/2018/10/medela-logo-vector.png",
+      "isActive":false
+    }
+  ]
+}

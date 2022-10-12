@@ -1,0 +1,39 @@
+:root {
+    --invalid-input: rgb(202, 1, 1);
+  }
+
+.c-button{
+    background-color: #0078D4;
+    cursor: pointer;
+    color: #fff;
+    border-width: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.c-input{
+    height:45px;
+    background-color:#eee;
+    width:'100%';
+    border-radius:15px;
+    padding-right:20px;
+    padding-left:20px;
+    border-width: 0px;
+}
+
+.c-input-invalid{
+    height:45px;
+    background-color:#eee;
+    width:'100%';
+    border-radius:15px;
+    border:none;
+    outline: 1px solid var(--invalid-input) ;
+    padding-right:20px;
+    padding-left:20px
+}
+
+input:focus, textarea:focus, select:focus{
+    outline: none;
+}

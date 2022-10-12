@@ -1,0 +1,24 @@
+{
+    "data":[
+    {
+      "id":0,
+      "name":"Pharmacie",
+      "isActive":true
+    },
+    {
+      "id":1,
+      "name":"Parapharmacie",
+      "isActive":true
+    },
+    {
+      "id":2,
+      "name":"Medecin",
+      "isActive":false
+    },
+    {
+      "id":3,
+      "name":"Clinic",
+      "isActive":true
+    }
+  ]
+}
