@@ -1,18 +1,22 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import { signout } from './utils/SignOut'
 
 export const AppTopbar = (props) => {
 
     return (
         <div className="layout-topbar">
             
-            <button type="button" className="p-link  layout-menu-button layout-topbar-button" onClick={props.onToggleMenuClick}>
+            <button 
+            type="button" 
+            className="p-link  layout-menu-button layout-topbar-button" 
+            onClick={props.onToggleMenuClick}>
                 <i className="pi pi-bars"/>
             </button>
 
             <Link to="/" className="layout-topbar-logo">
-                <img src={props.layoutColorMode === 'light' ? 'assets/layout/images/logo.png' : 'assets/layout/images/logo.png'} alt="logo"/>
+                <img src='assets/layout/images/logo.png' alt="logo"/>
                 <span>Amomed backoffice</span>
             </Link>
 
@@ -28,17 +32,18 @@ export const AppTopbar = (props) => {
                             <i className="pi pi-calendar"/>
                             <span>Events</span>
                         </button>
-                    </li> */}
+                    </li> 
                     <li>
                         <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
                             <i className="pi pi-bell"/>
                             <span>Settings</span>
                         </button>
-                    </li>
+                    </li>*/}
                     <li>
-                        <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
+                        <button className="p-link layout-topbar-button" 
+                        onClick={signout}>
                             <i className="pi pi-sign-out"/>
-                            <span>Profile</span>
+                            <span>se deconnecter</span>
                         </button>
                     </li>
                 </ul>

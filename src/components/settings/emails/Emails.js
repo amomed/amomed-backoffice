@@ -1,35 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
+import AddButton from '../buttons/AddButton'
+import RemoveButton from '../buttons/RemoveButton'
 
+const Emails = ({emails, addAmomedInfo, deleteAmomedInfo}) => {
+   const [emailValue, setEmailValue] = useState(null)
 
-const Emails = () => {
+   const onAddClicked = async () => {
+    await addAmomedInfo({email: emailValue})
+   }
+
+   const onRemoveClicked = async (email) => {
+    await deleteAmomedInfo({email: email})
+   }
+
   return (
     <div className="col-12 lg:col-6 xl:col-6">
                 <div className="card p-fluid">
                 <h4>les émails de support</h4>
-                    <div className='flex'>
-                        <div className="p-inputgroup">
-                            <InputText disabled 
-                            value={'test@gmail.com'}/>
-                        </div>
-                        <Button icon="pi pi-trash" 
-                        className="ml-2 p-button-rounded p-button-danger p-button-text" 
-                        aria-label="delete" />
+                {emails.map(email => (
+                <div className='flex mb-1'>
+                    <div className="p-inputgroup">
+                        <InputText disabled type={'email'}
+                        value={email}/>
                     </div>
-
-                    <div className='flex mt-2'>
-                        <div className="p-inputgroup">
-                            <InputText placeholder="email d'admin" />
-                        </div>
-                        <Button icon="pi pi-plus" 
-                        className="ml-2 p-button-outlined" 
-                        aria-label="delete" />
+                    <RemoveButton onRemoveClicked={onRemoveClicked} email={email} />
+                </div>
+                ))}
+                <div className='flex mt-2'>
+                    <div className="p-inputgroup">
+                        <InputText placeholder="email d'admin" value={emailValue} onChange={(e) => setEmailValue(e.target.value)} />
                     </div>
-
-                    <div className='mt-3 flex justify-content-end'>
-                    <Button className='w-auto p-button-success'>sauvegarder</Button>
-                    </div>
+                    <AddButton onAddClicked={onAddClicked} setEmailValue={setEmailValue} />
+                </div>
                 </div>
             </div>
   )

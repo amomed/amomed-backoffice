@@ -3,15 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 //import * as serviceWorker from './serviceWorker';
-import { HashRouter } from 'react-router-dom'
-import ScrollToTop from './ScrollToTop';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-    <HashRouter>
-        <ScrollToTop>
-            <App></App>
-        </ScrollToTop>
-    </HashRouter>,
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>,
     document.getElementById('root')
 );
 

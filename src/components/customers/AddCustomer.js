@@ -68,7 +68,10 @@ const AddCustomer = ({types, setLazyParams}) => {
                 filters : {
                     customerType: null,
                     active: null,
-                    city : null
+                    city : null,
+                    nameEntreprise : null,
+                    phoneNumber: null,
+                    ISE: null,
                 },
             })
         } else {

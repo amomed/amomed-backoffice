@@ -31,9 +31,9 @@ const AddBrand = ({categories,createSubCategory}) => {
                         .test(
                             'Is positive?', 
                             '', 
-                            (value) => value > 0
-                            ),
+                            (value) => value > 0),
         status:Yup.bool()
+
     })
 
     const headerTemplate = (options) => {
@@ -63,7 +63,6 @@ const AddBrand = ({categories,createSubCategory}) => {
     }
 
     const myUploader = async(values,event) => {
-        console.log(values)
         const imageService = new ImageService()
         const {objectURL, name} = event.files[0]
         const blob = await fetch(objectURL).then(r => r.blob()); //get blob url
@@ -74,19 +73,15 @@ const AddBrand = ({categories,createSubCategory}) => {
             active:values.status,
             photo : { url:url_image.data }
         }
-        console.log(data)
         await createSubCategory(data)
-        fileUploadRef.clear()
         hideDialog()
+        
     }
 
     const onSubmit = async (values,actions) => {
-        console.log(values)
         fileUploadRef.upload()
     }
     
-    
-
     
     return(
         <>
@@ -98,7 +93,7 @@ const AddBrand = ({categories,createSubCategory}) => {
         
         {/* MODAL */}
         <Dialog draggable={false} visible={dialogVisibility} breakpoints={{'1900px': '60vw', '640px': '100vw'}}
-            header="Ajouter nouveau catégorie" modal 
+            header="Ajouter nouveau marque" modal 
             className="p-fluid" onHide={hideDialog}>
             
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
@@ -155,6 +150,7 @@ const AddBrand = ({categories,createSubCategory}) => {
                         onSelect={(e) => onTemplateSelect(setFieldValue)}
                         onError={(e) => onTemplateClear(setFieldValue)} onClear={(e) =>onTemplateClear(setFieldValue)} onRemove={onTemplateRemove}
                         emptyTemplate={<p className="m-0">Faites glisser et déposez les images ici pour les télécharger.</p>} />
+
                 </div>          
                 
             </div>

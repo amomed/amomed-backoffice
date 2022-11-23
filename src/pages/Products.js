@@ -14,6 +14,7 @@ import { CategoryService } from '../service/CategoryService';
 import AddProduct from '../components/products/AddProduct';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import OptionsMenu from '../components/products/OptionsMenu';
 
 
 const Products = () => {
@@ -21,13 +22,15 @@ const Products = () => {
     const [loading, setLoading] = useState(false);
     const [totalRecords, setTotalRecords] = useState(0);
     const [toggleOptions, setToggleOptions] = useState(null); // toggle options state
+    const [toggleMenu, setToggleMenu] = useState(null); // toggle menu state
     const [lazyParams, setLazyParams] = useState({
         first: 0,
-        rows: 2,
+        rows: 10,
         page: 1,
         filters : {
             selectedCategory: null,
             active: null,
+            reference: null,
         },
         sortfield: null,
         sortorder: -1
@@ -122,54 +125,49 @@ const Products = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-
-            <Button 
-            onClick={()=>setToggleOptions(rowData._id === toggleOptions ? null : rowData._id )}
-            icon={toggleOptions === rowData._id ? 'pi pi-times' : 'pi pi-cog'}
-            className='p-button-outlined p-button-rounded p-button-sm' />
-
-            { 
-            toggleOptions === rowData._id && 
-                <>
-                    <SingleDelete table='products' rowData={rowData} deleteProduct={deleteProduct} />
-                    <PreviewProduct rowData={rowData} />
-                    <EditProduct rowData={rowData} categories={categories2} setLazyParams={setLazyParams} />
-                </>
-            }
+                <OptionsMenu 
+                rowData={rowData} 
+                setToggleMenu={setToggleMenu} 
+                toggleMenu={toggleMenu} 
+                categories={categories2} 
+                setLazyParams={setLazyParams}
+                deleteProduct={deleteProduct} />
             </div>
         );
     }
 
     const quantityTemplate = (rowData) => {
         let severity = 'success'
-        if(rowData.quantityStock<=20){
+        if(rowData.quantityStock <= 20){
             severity = 'danger'
         }
         return(
             <Badge 
-            value={rowData.quantityStock}
+            value={rowData.quantityStock.toString()}
             severity={severity}
             />
         )
     }
 
     const priceTemplate=(rowData)=>{
-        return(
-            <p>{rowData.priceProduct}dh</p>
-        )
+        if(rowData.maxPrice.price === rowData.minPrice.price)
+            return <p>{rowData.minPrice.price}dh</p>
+        else return <p>{`${rowData.maxPrice.price} - ${rowData.minPrice.price}dh`}</p>
     }
 
     const onPage = (event) => {
         setLazyParams({
             first: event.first,
-            rows: 2,
+            rows: 10,
             page: event.page + 1,
             filters : {
                 selectedCategory: lazyParams.filters.selectedCategory,
                 active: lazyParams.filters.active,
+                reference: lazyParams.filters.reference,
             },
             sortfield: lazyParams.sortfield,
-            sortorder: lazyParams.sortorder
+            sortorder: lazyParams.sortorder,
+            
         })
     }
 
@@ -186,11 +184,12 @@ const Products = () => {
         }
         setLazyParams({
             first: 0,
-            rows: 2,
+            rows: 10,
             page: 1,
             filters : {
                 selectedCategory: lazyParams.filters.selectedCategory,
                 active: lazyParams.filters.active,
+                reference: lazyParams.filters.reference,
             },
             sortfield: event.sortField,
             sortorder: sortorder
@@ -205,6 +204,7 @@ const Products = () => {
             filters : {
                 selectedCategory: event.value,
                 active: lazyParams.filters.active,
+                reference: lazyParams.filters.reference,
             },
             sortfield: null,
             sortorder: -1
@@ -231,12 +231,28 @@ const Products = () => {
         }
     }
 
+    const onSkuChanged = (event) => {
+        setLazyParams({
+            first: 0,
+            rows: 10,
+            page: 1,
+            filters : {
+                selectedCategory: event.value,
+                active: lazyParams.filters.active,
+                reference: event.target.value,
+            },
+            sortfield: null,
+            sortorder: -1
+        })
+    }
+
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Gérer les produits</h5>
         </div>
     );
 
+    //--------------FILTERS-----------------------------
     const categoryFilter = () => {
         return <Dropdown 
                   value={lazyParams.filters.selectedCategory}
@@ -248,25 +264,25 @@ const Products = () => {
 
     const skuFilter=()=>{
         return(
-          <InputText placeholder='sku' />
+          <InputText placeholder='sku' onChange={onSkuChanged} />
         )
-      }
+    }
+
+      console.log('products :',products)
 
   return (
     <div className="grid crud-demo">
             <div className="col-12">
                 <div className="card">
-
                     <div className='mb-4'>
-                        <AddProduct />
+                        <AddProduct setLazyParams={setLazyParams}/>
                     </div>
-
                     <DataTable
                     paginator 
                     lazy
                     first={lazyParams.first}
                     loading={loading}
-                    rows={2} 
+                    rows={10} 
                     totalRecords={totalRecords} 
                     onPage={onPage} 
                     onSort={onSort}
@@ -283,7 +299,7 @@ const Products = () => {
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
                     emptyMessage="aucune produit trouvée">
-                            <Column filter showFilterMenu={false} filterElement={skuFilter} field="reference" header="SKU" body={skuTemplate}></Column>
+                            {/* <Column filter showFilterMenu={false} filterElement={skuFilter} field="reference" header="SKU" body={skuTemplate}></Column> */}
                             <Column field="category.nameCategory" header="categorie" filter showFilterMenu={false} filterElement={categoryFilter}></Column>
                             <Column field="nameProduct" header="nom"></Column>
                             <Column field="photos" header="image" body={imageTemplate}></Column>
@@ -298,9 +314,9 @@ const Products = () => {
   )
 }
 
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(Products, comparisonFn);
+export default React.memo(Products);
 

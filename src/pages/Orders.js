@@ -4,47 +4,56 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
-import { Badge } from 'primereact/badge';
 import { OrderService } from '../service/OrderService';
 import PreviewOrder from '../components/orders/PreviewOrder';
 import { Dropdown } from 'primereact/dropdown';
+import { locale, addLocale } from 'primereact/api';
+import StatusMenu from '../components/orders/StatusMenu';
 
 const STATUS=[
     {
-        label:'toutes les status',
-        value:'1'
+        label:'Tous les status',
+        value: null
     },
     {
-        label:'Livré',
-        value:'2'
+        label:'EN COURS',
+        value:'EN COURS'
     },
     {
-        label:'Éxpédié',
-        value:'3'
+        label:'ÉXPEDIÉ',
+        value:'ÉXPEDIÉ'
     },
     {
-        label:'Retour',
-        value:'4'
+        label:'LIVRÉ',
+        value:'LIVRÉ'
     },
     {
-        label:'En cours',
-        value:'5'
-    }]
+        label:'RETOUR',
+        value:'RETOUR'
+    },
+    {
+        label:'ANNULÉE',
+        value:'ANNULÉE'
+    }
+]
 
 const Orders = () => {
     const orderService = new OrderService();
     const [orders, setOrders] = useState(null);
+    //--------------------------------------------
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const dt = useRef(null);
+    const menu = useRef(null)
     const [toggleOptions, setToggleOptions] = useState(null); // toggle options state
+    const [toggleMenu, setToggleMenu] = useState(null); // toggle menu state
     const [totalRecords, setTotalRecords] = useState(0);
     const [lazyParams, setLazyParams] = useState({
         first: 0,
         rows: 10,
         page: 1,
         filters : {
-            date: null, 
+            date: new Date(), 
             status: null, 
             customer: null,
             numOrder: null
@@ -53,6 +62,21 @@ const Orders = () => {
         sortorder: -1
     });
 
+    console.log(typeof lazyParams.filters.date)
+
+    addLocale('fr', {
+        firstDayOfWeek: 1,
+        dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+        dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+        monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
+        monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ],
+        today: "aujourd'hui",
+        clear: 'réinitialiser'
+    });
+    
+    locale('fr');
+
 
     useEffect(() => {
         lazyLoadData()
@@ -60,15 +84,15 @@ const Orders = () => {
 
     // GET ORDERS
     async function lazyLoadData(){
+        setLoading(true)
         const response = await orderService.getAllOrders(lazyParams,totalRecords)
         if(response.data){
             setOrders(response.data.orders)
             setTotalRecords(response.data.totalDocuments)
-            setLoading(false)
         } else {
             console.log(response.error)
-            setLoading(false)
         }
+        setLoading(false)
     }
 
     const onPage = (event) => {
@@ -103,15 +127,72 @@ const Orders = () => {
         })
     }
 
+    const onDateChanged = (event) => {
+        setLazyParams({
+            first: 0,
+            rows: 10,
+            page: 1,
+            filters : {
+                date: event.target.value, 
+                status: lazyParams.filters.status, 
+                customer: lazyParams.filters.customer,
+                numOrder: lazyParams.filters.numOrder
+            },
+            sortfield: null,
+            sortorder: -1
+        })
+    }
+
+    const onNumOrderChanged = (event) => {
+        setLazyParams({
+            first: 0,
+            rows: 10,
+            page: 1,
+            filters : {
+                date: lazyParams.filters.date, 
+                status: lazyParams.filters.status, 
+                customer: lazyParams.filters.customer,
+                numOrder: event.target.value
+            },
+            sortfield: null,
+            sortorder: -1
+        })
+
+    }
+
+
+    const onStatusChanged = (event) => {
+        setLazyParams({
+            first: 0,
+            rows: 10,
+            page: 1,
+            filters : {
+                date: lazyParams.filters.date, 
+                status: event.value, 
+                customer: lazyParams.filters.customer,
+                numOrder: lazyParams.filters.numOrder
+            },
+            sortfield: null,
+            sortorder: -1
+        })
+    }
+
+    const updateOrderStatus = async (order) => {
+        setLoading(true)
+        const response = await orderService.updateOrderStatus(order)
+        if(response.error){
+            console.log(response.error)
+        }
+        setLoading(false)
+    } 
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <div className="actions">
-
+            <div className="actions flex">
                 <Button 
-                onClick={()=>setToggleOptions(rowData._id === toggleOptions ? null : rowData._id )}
+                onClick={() => setToggleOptions(rowData._id === toggleOptions ? null : rowData._id )}
                 icon={toggleOptions === rowData._id ? 'pi pi-times' : 'pi pi-cog'}
-                className='p-button-text p-button-rounded p-button-sm'
+                className='p-button-text p-button-secondary p-button-rounded p-button-sm'
                  />
 
                 {
@@ -130,25 +211,31 @@ const Orders = () => {
                                 className="p-button-sm p-button-rounded p-button-outlined p-button-text p-button-warning"/>
                     </>
                 }
+
+            {/* STATUS CHANGE */}
+            { rowData.status !== 'RETOUR' 
+            && <StatusMenu 
+            rowData={rowData} 
+            setToggleMenu={setToggleMenu} 
+            toggleMenu={toggleMenu} 
+            updateOrderStatus={updateOrderStatus} />}
+
             </div>
         );
     }
 
-    const dateTemplate=(rowData)=>{
-        const date = rowData.createdAt.split('T')[0]
-        return (
-            <p style={{width:150}}>{date}</p>
-        )
-    }
 
     const statusCheck=(status)=>{
         let severity=''
-        if(status === 'Livré') severity = 'success'
-        else if (status === 'Expédié') severity = 'info'
-        else if (status === 'Annulée') severity = 'danger'
-        else severity = 'warning'
+        if(status === 'LIVRÉ') severity = '#09c902'
+        else if (status === 'ÉXPEDIÉ') severity = '#2c00db'
+        else if (status === 'ANNULÉE') severity = '#f00'
+        else if (status === 'EN COURS') severity = '#ff9100'
+        else severity = '#6e6d6d'
         return(
-            <Badge value={status} severity={severity} />
+            <div style={{backgroundColor:severity,borderRadius:8,display:'inline-block'}} className='pr-2 pl-2'>
+                <p className='font-bold' style={{color:'#fff'}}>{status}</p>
+            </div>
         )
     }
 
@@ -164,30 +251,33 @@ const Orders = () => {
 
     const priceBodyTemplate=(rowData)=>{
         return(
-            <p className='font-bold'>{rowData.totalPriceOrder}dh</p>
+            <p>{rowData.totalPriceOrder}dh</p>
         )
     }
 
     const commandeFilter=()=>{
         return(
-            <InputText placeholder='num commande' />
+            <InputText 
+            placeholder='# commande' 
+            value={lazyParams.filters.numOrder} 
+            onChange={onNumOrderChanged} />
         )
     }
 
     const dateFilter=()=>{
         return(
-            <Calendar placeholder='date' id="basic"/>
+            <Calendar
+            local={'fr'}
+            showButtonBar
+            onChange={onDateChanged} 
+            value={lazyParams.filters.date}
+            placeholder='date' 
+            id="basic"/>
         )
     }
 
-    const customerFilter=()=>{
-        return(
-            <InputText placeholder='nom client' />
-        )
-    }
 
     const textTemplate=(rowData,field)=>{
-        console.log(rowData)
         let val =''
         if(field==='numOrder') val = rowData.numOrder
         else if(field==='customer') {
@@ -195,20 +285,33 @@ const Orders = () => {
             val = rowData.customer.nameEntreprise
             else val = "client n'existe plus" 
         }
-    
         return(
-        <p style={{width:110}}>{val}</p>
+        <p>{val}</p>
       )}
+
+      const dateTemplate=(rowData)=>{
+        const date = new Date(rowData.createdAt).toLocaleDateString("fr")
+        return (
+            <p>{date}</p>
+        )
+    }
 
       const statusFilter=()=>{
         return(
             <Dropdown 
-            placeholder='statut'
-            options={STATUS} 
-            style={{width:120}}
-            className="p-column-filter" />
+            placeholder='STATUT'
+            value={lazyParams.filters.status}
+            options={STATUS}
+            onChange={onStatusChanged}
+            style={{width:150}} />
         )
       }
+
+      const emptyMessage = () => (
+        <div className='pt-5 pb-5 flex align-items-center justify-centent-center'>
+            <p>pas de commandes pour cette date</p>
+        </div>
+      )
 
 
 
@@ -217,7 +320,8 @@ const Orders = () => {
                 <div className="col-12">
                     <div className="card">
 
-                    <DataTable size='small' 
+                    <DataTable 
+                    size='small' 
                     lazy
                     first={lazyParams.first}
                     loading={loading}
@@ -237,13 +341,13 @@ const Orders = () => {
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="afficher {first} à {last} de {totalRecords} commandes"
                     className="datatable-responsive"
-                    emptyMessage="aucun commande trouvée">
+                    emptyMessage={emptyMessage}>
                             <Column filter showFilterMenu={false} filterElement={commandeFilter} body={(val)=>textTemplate(val,'numOrder')} field="numOrder" header="# commande"></Column>
                             <Column filter showFilterMenu={false} filterElement={dateFilter} field="date" header="date" body={dateTemplate}></Column>
-                            <Column filter showFilterMenu={false} filterElement={customerFilter} body={(val)=>textTemplate(val,'customer')} field="customer.nameEntreprise" header="client"></Column>
+                            <Column body={(val)=>textTemplate(val,'customer')} field="customer.nameEntreprise" header="client"></Column>
                             <Column filter showFilterMenu={false} filterElement={statusFilter} field="status" header="statut" body={statusBodyTemplate} ></Column>
                             <Column sortable field="totalPriceOrder" header="total" body={priceBodyTemplate}></Column>
-                            <Column sortable field="quantityTotal" header="quantité total"></Column>
+                            <Column field="quantityTotal" header="quantité"></Column>
                             <Column body={actionBodyTemplate}></Column>
                     </DataTable>
                     </div>

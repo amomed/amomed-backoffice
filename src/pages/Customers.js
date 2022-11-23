@@ -9,12 +9,12 @@ import AddCustomer from '../components/customers/AddCustomer';
 import Cities from '../../src/utils/Ville.json'
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
-import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import EditCustomerPassword from '../components/customers/EditCustomerPassword';
 //services
 import { TypesService } from '../service/TypesService';
 import { CustomersService } from '../service/CustomersService';
+import OptionsMenu from '../components/customers/OptionsMenu';
 
 
 const Customers = () => {
@@ -29,6 +29,7 @@ const Customers = () => {
     const [loading, setLoading] = useState(false);
     const dt = useRef(null);
     const menu = useRef(null);
+    const [toggleMenu, setToggleMenu] = useState(null); // toggle menu state
     const [lazyParams, setLazyParams] = useState({
       first: 0,
       rows: 2,
@@ -36,7 +37,10 @@ const Customers = () => {
       filters : {
           customerType: null,
           active: null,
-          city : null
+          city : null,
+          nameEntreprise : null,
+          phoneNumber: null,
+          ISE: null,
       },
   });
 
@@ -61,18 +65,17 @@ const Customers = () => {
       }
       setLoading(false)
     }
-    
     async function getTypes(){
       setLoading(true);
       const response = await typesService.getCustomersTypes();
       let _types = []
-      _types.push({ label: "Toutes les types", value: null })
+      _types.push({ label: "Toutes les types", value: null, active:true })
       if(response.data){
         response.data.map(type => {
-          _types.push({ label: type.customerType, value: type._id })
+          _types.push({ label: type.customerType, value: type._id, active: type.active })
         })
         setTypes(_types)
-        setTypes2(_types.filter((t,index) => index > 0))
+        setTypes2(_types.filter((val,index) => index > 0 && val.active === true))
       } else {
         console.log(response.error);
       }
@@ -114,10 +117,16 @@ const Customers = () => {
 
 
   const actionBodyTemplate = (rowData) => {
-    console.log(rowData)
     return (
-        <div className="actions">      
-          <Button 
+        <div className="actions flex">    
+        <OptionsMenu 
+        rowData={rowData}
+        setToggleMenu={setToggleMenu} 
+        toggleMenu={toggleMenu}
+        _deleteCustomer={_deleteCustomer}
+        types={types2} 
+        setLazyParams={setLazyParams} />  
+          {/* <Button 
           onClick={()=>setToggleOptions(rowData._id === toggleOptions ? null : rowData._id )}
           icon={toggleOptions === rowData._id ? 'pi pi-times' : 'pi pi-cog'}
           className='p-button-outlined p-button-rounded p-button-sm' />
@@ -128,7 +137,7 @@ const Customers = () => {
               <EditCustomer rowData={rowData} types={types2} setLazyParams={setLazyParams}/> 
               <EditCustomerPassword rowData={rowData}/>
             </>
-          }
+          } */}
         </div>
     );
   }
@@ -150,9 +159,12 @@ const Customers = () => {
       rows: 2,
       page: 1,
       filters : {
-          customerType: e.value,
-          active: lazyParams.filters.active,
-          city: lazyParams.filters.city
+        customerType: e.value,
+        active: lazyParams.filters.active,
+        city: lazyParams.filters.city,
+        nameEntreprise : lazyParams.filters.nameEntreprise,
+        phoneNumber: lazyParams.filters.phoneNumber,
+        ISE: lazyParams.filters.ISE ,
       }
     })
   }
@@ -166,7 +178,10 @@ const Customers = () => {
       filters : {
           customerType: lazyParams.filters.customerType,
           active: lazyParams.filters.active,
-          city: city
+          city: city,
+          nameEntreprise : lazyParams.filters.nameEntreprise,
+          phoneNumber: lazyParams.filters.phoneNumber,
+          ISE: lazyParams.filters.ISE ,
       }
     })
   }
@@ -179,14 +194,17 @@ const Customers = () => {
         filters : {
           customerType: lazyParams.filters.customerType,
           active: lazyParams.filters.active,
-          city: lazyParams.filters.city
+          city: lazyParams.filters.city,
+          nameEntreprise : lazyParams.filters.nameEntreprise,
+          phoneNumber: lazyParams.filters.phoneNumber,
+          ISE: lazyParams.filters.ISE ,
         }
     })
   }
 
   const header = (
     <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-        <h5 className="m-0">Gérer les clients</h5>
+        <h5 className="m-0">Gérer les utilisateurs</h5>
     </div>
   );
 
@@ -215,20 +233,68 @@ const Customers = () => {
 
   const iceFilter=()=>{
     return(
-      <InputText placeholder='ice' />
+      <InputText placeholder='ice' onChange={onIceChanged} value={lazyParams.filters.ISE}/>
     )
   }
 
   const nameFilter=()=>{
     return(
-      <InputText placeholder="nom" />
+      <InputText placeholder="nom" onChange={onNameChanged} value={lazyParams.filters.nameEntreprise} />
     )
   }
 
   const phoneFilter=()=>{
     return(
-      <InputText placeholder="téléphone" />
+      <InputText placeholder="téléphone" onChange={onPhoneNumberChanged} value={lazyParams.filters.phoneNumber} />
     )
+  }
+
+  const onIceChanged = (event) => {
+    setLazyParams({
+      first: 0,
+      rows: 2,
+      page: 1,
+      filters : {
+        customerType: lazyParams.filters.customerType,
+        active: lazyParams.filters.active,
+        city: lazyParams.filters.city,
+        nameEntreprise : lazyParams.filters.nameEntreprise,
+        phoneNumber: lazyParams.filters.phoneNumber,
+        ISE: event.target.value,
+      }
+    })
+  }
+
+  const onNameChanged = (event) => {
+    setLazyParams({
+      first: 0,
+      rows: 2,
+      page: 1,
+      filters : {
+        customerType: lazyParams.filters.customerType,
+        active: lazyParams.filters.active,
+        city: lazyParams.filters.city,
+        nameEntreprise : event.target.value,
+        phoneNumber: lazyParams.filters.phoneNumber,
+        ISE: lazyParams.filters.ISE,
+      }
+    })
+  }
+
+  const onPhoneNumberChanged = (event) => {
+    setLazyParams({
+      first: 0,
+      rows: 2,
+      page: 1,
+      filters : {
+        customerType: lazyParams.filters.customerType,
+        active: lazyParams.filters.active,
+        city: lazyParams.filters.city,
+        nameEntreprise : lazyParams.filters.nameEntreprise,
+        phoneNumber: event.target.value,
+        ISE: lazyParams.filters.ISE,
+      }
+    })
   }
 
 

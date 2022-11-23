@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup'
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
-import { classNames, ConnectedOverlayScrollHandler } from 'primereact/utils';
+import { classNames } from 'primereact/utils';
 import { FileUpload } from 'primereact/fileupload';
 import { Toast } from 'primereact/toast';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -13,35 +13,21 @@ import { InputSwitch } from 'primereact/inputswitch';
 import { BrandsService } from '../../service/BrandsService';
 import { ImageService } from '../../service/ImageService';
 import { ProductService } from '../../service/ProductService';
-
+import { VariantService } from '../../service/VariantService'
 
 
 const EditProduct = ({rowData,categories,setLazyParams}) => {
     const [dialogVisibility, setDialogVisibility] = useState(false);
     const [brands,setBrands] = useState([])
-    const {_id,reference, nameProduct, category, underCategory, priceProduct, photos, description, quantityStock, minOrderQuantity, active } = rowData;
+    const [variant, setVariant] = useState({})
+    const [loadingVariant, setLoading] = useState(false)
+    const {_id, nameProduct, category, underCategory,  photos, description, active, hasVariant } = rowData;
     const hideDialog = () => setDialogVisibility(false)
     const openModal = () => setDialogVisibility(true)
     const toast = React.useRef(null);
     let fileUploadRef = useRef(null);
 
-    const initialValues = {
-        _id: _id,
-        reference: reference,
-        nameProduct: nameProduct,
-        category: category._id,
-        underCategory: underCategory,
-        priceProduct: priceProduct,
-        photos: photos,
-        deletedImages: [],
-        numberImages: 0,
-        description: description,
-        quantityStock: quantityStock,
-        minOrderQuantity: minOrderQuantity,
-        active: active,
-    }
-    
-    const validationSchema = Yup.object().shape({
+    const validationWithoutVariant = Yup.object().shape({
         reference: Yup.string().required('sku obligatoire'),
         nameProduct: Yup.string().required('nom obligatoire'),
         category: Yup.string().required('catégorie obligatoire'),
@@ -61,17 +47,35 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                             ),
     })
 
+    const validationWithVariant = Yup.object().shape({
+        nameProduct: Yup.string().required('nom obligatoire'),
+        category: Yup.string().required('catégorie obligatoire'),
+        description: Yup.string().required('description obligatoire'),
+    })
+
 
   
 
     useEffect(() => {
         if(dialogVisibility){
             getBrandsBySelectedCategory(category._id)
+            !hasVariant && getVariantProduct()
         }
     },[dialogVisibility])
+
+    async function getVariantProduct(){
+        setLoading(true)
+        const variantService = new VariantService()
+        const response = await variantService.getVariantsByProduct(_id)
+        if(response.data){
+            setVariant(response.data[0])
+        } else {
+            console.log(response.error)
+        }
+        setLoading(false)
+    }
     // get selected brands when a category changed
     async function getBrandsBySelectedCategory(categoryId) {
-        console.log(categoryId)
         const brandsService = new BrandsService()
         const response = await brandsService.getBrandsByCategory(categoryId)
         let _brands = []
@@ -110,11 +114,12 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
             hideDialog()
             setLazyParams({
                 first: 0,
-                rows: 2,
+                rows: 10,
                 page: 1,
                 filters : {
                     selectedCategory: null,
                     active: null,
+                    reference: null,
                 },
                 sortfield: null,
                 sortorder: -1
@@ -124,8 +129,18 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
         }
     }
     
+    async function _editVariant(variantData) {
+        const {reference, priceProduct, quantityStock, minOrderQuantity} = variantData
+        const _variantData = {
+            reference, priceProduct, quantityStock, minOrderQuantity
+        }
+        const variantService = new VariantService()
+        await variantService.editVariant(variant._id, _variantData)
+    }
+    
     const onSubmit = async (values,actions) => {
         await _deleteImages(values.deletedImages)
+        !hasVariant && await _editVariant(values)
         if(values.numberImages > 0){
             fileUploadRef.upload()
         } else {
@@ -146,23 +161,16 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
             firebaseUrl.push(url_product.data)
         }
         values.photos = values.photos.length > 0 ? values.photos.concat(firebaseUrl) : firebaseUrl
-        const { reference, nameProduct, category, underCategory, priceProduct, photos, description, quantityStock, minOrderQuantity, active } = values
+        const { nameProduct, category, underCategory, photos, description, active } = values
         const data = {
-            reference,
             nameProduct,
             category,
             underCategory,
-            priceProduct,
             photos, 
             description,
-            quantityStock, 
-            minOrderQuantity, 
             active
         }
-        fileUploadRef.clear()
         await _editProduct(values._id, data)
-        
-        
     }
 
     //when an image added
@@ -190,22 +198,47 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
         );
     }
 
-  return (
-    <>
-    <Button icon="pi pi-pencil" className="p-button-sm p-button-rounded p-button-text p-button-warning" onClick={openModal} />
-    <Dialog draggable={false} visible={dialogVisibility} breakpoints={{'1080px': '100vw', '640px': '100vw'}}
-            maximizable header={`Modifier ${reference}`} modal 
-            className="p-fluid" onHide={hideDialog} >
-            <Toast ref={toast}></Toast>
-            <div className='m-2 p-5'>
-            { !active && <div style={{backgroundColor:'#FFD1CE',borderRadius:30}} className='flex mb-5 p-3 align-items-center'>
-                <i className="pi pi-exclamation-circle text-xl"/>
-                <p className='font-bold ml-3'>{"ce produit n'est pas actif"}</p>
-            </div>}
+    //form edit
+    const renderFormEdit = () => {
+        let initialValues = {}
+        let render = false
+        if(!hasVariant && !loadingVariant){
+            render = true
+             initialValues = {
+                _id: _id,
+                nameProduct: nameProduct,
+                category: category._id,
+                underCategory: underCategory,
+                photos: photos,
+                deletedImages: [],
+                numberImages: 0,
+                description: description,
+                active: active,
+                reference : variant.reference,
+                priceProduct: variant.priceProduct,
+                quantityStock: variant.quantityStock,
+                minOrderQuantity : variant.minOrderQuantity
+            }
+        } else if (hasVariant){
+            render = true
+            initialValues = {
+                _id: _id,
+                nameProduct: nameProduct,
+                category: category._id,
+                underCategory: underCategory,
+                photos: photos,
+                deletedImages: [],
+                numberImages: 0,
+                description: description,
+                active: active,
+            }
+        }
+        if(render)
+        return (
             <Formik 
             enableReinitialize={true}
             initialValues={initialValues} 
-            validationSchema={validationSchema} 
+            validationSchema={hasVariant ? validationWithVariant : validationWithoutVariant} 
             onSubmit={onSubmit}>
             {({ handleChange, handleSubmit,
             isSubmitting, values, errors, touched, setFieldValue })=>{
@@ -220,7 +253,7 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                 <div className='grid'>
 
                 <div className='col-6'>
-
+                {!hasVariant &&
                 <div className='mb-3'>
                     <p className="mb-2">SKU</p>
                     <InputText placeholder='sku'
@@ -230,6 +263,7 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                     />
                     {getFormErrorMessage('reference')}
                 </div>
+                }
 
                 <div className='mb-3'>
                     <p className="mb-2">nom de produit</p>
@@ -241,6 +275,7 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                     {getFormErrorMessage('nameProduct')}
                 </div>
 
+                {!hasVariant &&
                 <div className='mb-3'>
                     <p className="mb-2">prix</p>
                     <InputText placeholder='prix' 
@@ -250,7 +285,9 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                     />
                     {getFormErrorMessage('priceProduct')}
                 </div>
+                }
 
+                {!hasVariant &&
                 <div className='mb-3'>
                     <p className="mb-2">quantité</p>
                     <InputText type={'number'} placeholder='quantité' 
@@ -260,7 +297,9 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                     />
                     {getFormErrorMessage('quantityStock')}
                 </div>
+                }
 
+                {!hasVariant &&
                 <div className='mb-3'>
                     <p className="mb-2">quantité minimal</p>
                     <InputText type={'number'} placeholder='quantité minimal' 
@@ -270,6 +309,7 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                     />
                     {getFormErrorMessage('minOrderQuantity')}
                 </div>
+                }
 
                 <div className='mb-3'>
                     <p className="mb-2">description</p>
@@ -359,6 +399,7 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                 <Button 
                     disabled={isSubmitting}
                     onClick={handleSubmit} 
+                    loading={isSubmitting}
                     label={'modifier'}
                     className='w-auto p-button-text p-button-warning' 
                     icon="pi pi-pencil"  
@@ -368,7 +409,29 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
                 )
             }}
             </Formik>
+        )
+    }
 
+  return (
+    <>
+    <div 
+          className='align-items-center flex p-2 pl-3 pr-6 menu-child'
+          onClick={openModal}
+          >
+              <i className='pi pi-pencil'></i>
+              <span className='uppercase ml-2'>modifier</span>
+    </div>
+    
+    <Dialog draggable={false} visible={dialogVisibility} breakpoints={{'1080px': '100vw', '640px': '100vw'}}
+            maximizable header={`Modifier ${nameProduct}`} modal 
+            className="p-fluid" onHide={hideDialog} >
+            <Toast ref={toast}></Toast>
+            <div className='m-2 p-5'>
+            { !active && <div style={{backgroundColor:'#f00',borderRadius:30}} className='flex mb-5 p-3 align-items-center'>
+                <i className="pi pi-exclamation-circle text-xl"/>
+                <p style={{color:'#fff'}} className='font-bold ml-3'>{"ce produit n'est pas actif"}</p>
+            </div>}
+            {renderFormEdit()}
             </div>
 
         </Dialog>

@@ -59,9 +59,23 @@ const AppSubmenu = (props) => {
     const renderLink = (item, i) => {
         let content = renderLinkContent(item);
 
+        let activeStyle = {
+            color:'#6366F0',
+            fontWeight:'bold'
+          };
+
         if (item.to) {
             return (
-                <NavLink aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className="p-ripple" activeClassName="router-link-active router-link-exact-active" to={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact target={item.target}>
+                <NavLink aria-label={item.label} 
+                onKeyDown={onKeyDown} 
+                role="menuitem"
+                className="p-ripple" 
+                to={item.to} 
+                onClick={(e) => onMenuItemClick(e, item, i)}  
+                target={item.target}
+                style={({ isActive }) =>
+                isActive ? activeStyle : undefined
+                }>
                     {content}
                 </NavLink>
             )
@@ -101,7 +115,9 @@ const AppSubmenu = (props) => {
         }
     });
 
-    return items ? <ul className={props.className} role="menu">{items}</ul> : null;
+    return items 
+    ? <ul className={props.className} role="menu">{items}</ul> 
+    : null;
 }
 
 export const AppMenu = (props) => {
@@ -109,10 +125,6 @@ export const AppMenu = (props) => {
     return (
         <div className="layout-menu-container">
             <AppSubmenu items={props.model} className="layout-menu"  onMenuItemClick={props.onMenuItemClick} root={true} role="menu" />
-            {/* <a href="https://www.primefaces.org/primeblocks-react" className="block mt-3">
-                <img alt="primeblocks" className="w-full"
-                     src={props.layoutColorMode === 'light' ? 'assets/layout/images/banner-primeblocks.png' : 'assets/layout/images/banner-primeblocks-dark.png'}/>
-            </a> */}
         </div>
     );
 }

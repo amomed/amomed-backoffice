@@ -34,16 +34,16 @@ const Brands = () => {
     }
 
     async function getData(){
+        setLoading(true)
         const response = await subCategoryService.getSubCategories()
         if(response.data){
             setBrands(response.data)
             getCategories()
-            setLoading(false)
         } else {
             console.log(response.error);
-            setLoading(false)
-
         }
+        setLoading(false)
+
     }
 
 
@@ -61,13 +61,6 @@ const Brands = () => {
             </React.Fragment>
         )
     }
-
-
-    // const imageTemplate = (rowData) => {
-    //     return (
-    //         <img src={rowData.img} alt={rowData.img} className="shadow-2" width="100" />
-    //     )
-    // }
 
 
     // UPDATE SUB CATEGORY STATUS
@@ -118,6 +111,18 @@ const Brands = () => {
         );
     }
 
+    const imageTemplate=(rowData)=>{
+        return (
+            <>
+            {
+                rowData.photo.url !== null
+                ? <img src={rowData.photo.url} alt={rowData.photo.url} className="shadow-2" width="50" />
+                : <b style={{color:'#f00'}}>aucune image</b>
+            }
+            </>   
+        )
+    }
+
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Gérer les Marques</h5>
@@ -135,16 +140,26 @@ const Brands = () => {
                 <div className="card">
                     <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
                   
-                    <DataTable size='small' stripedRows ref={dt} value={brands} responsiveLayout="scroll"
-                        loading={loading} rowHover
-                        globalFilter={globalFilter} header={header} paginator
-                        dataKey="id" rows={25} rowsPerPageOptions={[5, 10, 25, 50]} className="datatable-responsive"
-                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} brands"
-                        emptyMessage="aucune marque trouvée">
+                    <DataTable size='small' 
+                    stripedRows 
+                    ref={dt} 
+                    value={brands} 
+                    responsiveLayout="scroll"
+                    loading={loading} 
+                    rowHover
+                    globalFilter={globalFilter} 
+                    header={header} 
+                    paginator
+                    dataKey="id" 
+                    rows={25} 
+                    rowsPerPageOptions={[5, 10, 25, 50]} 
+                    className="datatable-responsive"
+                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} brands"
+                    emptyMessage="aucune marque trouvée">
                             <Column sortable field="nameUnderCategory" header="marque"></Column>
                             <Column sortable field="category.nameCategory" header="catégorie"></Column>
-                            {/* <Column field="img" header="image" body={imageTemplate}></Column> */}
+                            <Column field="img" header="image" body={imageTemplate}></Column>
                             <Column sortable field="active" header="status" body={statusBodyTemplate}></Column>
                             <Column body={actionBodyTemplate}></Column>
                     </DataTable>

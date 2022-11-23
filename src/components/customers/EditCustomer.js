@@ -68,7 +68,10 @@ const EditCustomer = ({rowData, types, setLazyParams}) => {
                 filters : {
                     customerType: null,
                     active: null,
-                    city : null
+                    city : null,
+                    nameEntreprise : null,
+                    phoneNumber: null,
+                    ISE: null ,
                 },
             })
         } else {
@@ -103,7 +106,18 @@ const EditCustomer = ({rowData, types, setLazyParams}) => {
 
     return (
         <>
-        <Button icon="pi pi-pencil" className="p-button-sm p-button-rounded p-button-text p-button-warning" onClick={openModal} />
+        {/* <Button icon="pi pi-pencil" 
+        className="p-button-sm p-button-rounded p-button-text p-button-warning" 
+        onClick={openModal} /> */}
+        
+        <div 
+          className='align-items-center flex p-2 pl-3 pr-6 menu-child'
+          onClick={openModal}
+          >
+              <i className='pi pi-pencil'></i>
+              <span className='uppercase ml-2'>modifier</span>
+        </div>
+        
         <Dialog draggable={false} 
         visible={dialogVisibility} 
         breakpoints={{'1080px': '100vw', '640px': '100vw'}}

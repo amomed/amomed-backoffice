@@ -12,8 +12,17 @@ const PreviewProduct = ({rowData}) => {
 
   return (
     <>
-    <Button icon="pi pi-eye" className="p-button-sm p-button-rounded p-button-text p-button-info" onClick={openModal} />
-    <Dialog draggable={false} visible={dialogVisibility} breakpoints={{'1080px': '100vw', '640px': '100vw'}}
+    {/* <Button icon="pi pi-eye" className="p-button-sm p-button-rounded p-button-text p-button-info" onClick={openModal} /> */}
+    <div 
+          className='align-items-center flex p-2 pl-3 pr-6 menu-child'
+          onClick={openModal}
+          >
+              <i className='pi pi-eye'></i>
+              <span className='uppercase ml-2'>apercu</span>
+    </div>
+
+    <Dialog draggable={false} visible={dialogVisibility}
+            breakpoints={{'1800px': '100vw', '640px': '100vw'}}
             maximizable header={`Détail de ${nameProduct}`} modal 
             className="p-fluid" onHide={hideDialog}>
 

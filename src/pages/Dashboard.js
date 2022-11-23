@@ -1,85 +1,166 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu } from 'primereact/menu';
-import { Button } from 'primereact/button';
-import { Chart } from 'primereact/chart';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import ProductsCard from '../components/dashboard/ProductsCard';
+import OrdersCard from '../components/dashboard/OrdersCard';
+import CustomersCard from '../components/dashboard/CustomersCard';
+import RevenueCard from '../components/dashboard/RevenueCard';
+import { DashboardService } from '../service/DashboardService';
 
-const Dashboard = (props) => {
 
 
+const Dashboard = () => {
+    const dashboardService = new DashboardService()
+    const dt = useRef(null);
+    const [products,setProducts] = useState(null);
+    const [lazyParams, setLazyParams] = useState({
+        first: 0,
+        rows: 10,
+        page: 1,
+    })
+    const [totalRecords, setTotalRecords] = useState(0)
+    const [loading, setLoading] = useState(false)
+    const [statistics, setStatistcs] = useState({
+        totalProducts : 0,
+        totalCustomers : {
+            total: 0,
+            active: 0,
+            unactive: 0
+        },
+        orders : {
+            ENCOURS: 0,
+            EXPEDIE: 0,
+            LIVRE: 0,
+            RETOUR: 0,
+            ANNULEE: 0,
+            revenue: 0,
+        },
+    })
+
+
+    useEffect(() => {
+        lazyLoadData()
+    },[lazyParams])
+
+    useEffect(() => {
+        getData()
+    },[])
+
+    async function lazyLoadData(){
+        setLoading(true)
+        const response = await dashboardService.getBestSellingProducts(lazyParams,totalRecords)
+        if(response.data){
+            setProducts(response.data.products)
+            setTotalRecords(response.data.totalDocuments)
+        } else {
+            console.log(response.error)
+        }
+        setLoading(false)
+    }
+
+    async function getData(){
+        const {totalProducts} = await getTotalProducts()
+        const {totalCustomers} = await getTotalCustomers()
+        const orders = await getStatistics()
+        const _statistics = {
+            totalProducts : totalProducts ,
+            totalCustomers : totalCustomers,
+            orders : orders,
+        }
+        setStatistcs(_statistics)
+    }
+
+    async function getTotalProducts(){
+        const response = await dashboardService.getTotalProducts()
+        if(response.data){
+            return response.data
+        } else {
+            console.log(response)
+        }
+    }
+
+    async function getTotalCustomers(){
+        const response = await dashboardService.getTotalCustomers()
+        if(response.data){
+            return response.data
+        } else {
+            console.log(response.error)
+        }
+    }
+
+    async function getStatistics(){
+        const response = await dashboardService.getStatistics()
+        if(response.data){
+            return response.data
+        } else {
+            console.log(response.error)
+        }
+    }
+
+    const onPage = (event) => {
+        setLazyParams({
+            first: event.first,
+            rows: 10,
+            page: event.page + 1,
+        })
+    }
+
+
+    const header = (
+        <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5 className="m-0">produits les plus vendus</h5>
+        </div>
+    );
 
     return (
+        <>
         <div className="grid">
-            <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0">
-                        <div className="flex justify-content-between mb-3">
-                            <div>
-                                <span className="block text-500 font-medium mb-3">Produits</span>
-                                <div className="text-900 font-medium text-xl">152</div>
-                            </div>
-                            <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{width: '2.5rem', height: '2.5rem'}}>
-                                <i className="pi pi-shopping-cart text-blue-500 text-xl"/>
-                            </div>
-                        </div>
-                        <span className="text-green-500 font-medium">24 new </span>
-                        <span className="text-500">since last visit</span>
-                </div>
-            </div>
 
-            <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0">
-                        <div className="flex justify-content-between mb-3">
-                            <div>
-                                <span className="block text-500 font-medium mb-3">Commandes (livré)</span>
-                                <div className="text-900 font-medium text-xl">152</div>
-                            </div>
-                            <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{width: '2.5rem', height: '2.5rem'}}>
-                                <i className="pi pi-box text-purple-500 text-xl"/>
-                            </div>
-                        </div>
-                        <span className="text-green-500 font-medium">24 new </span>
-                        <span className="text-500">since last visit</span>
-                </div>
-            </div>
+            <ProductsCard totalProducts={statistics.totalProducts}/>
 
-            <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0">
-                        <div className="flex justify-content-between mb-3">
-                            <div>
-                                <span className="block text-500 font-medium mb-3">Clients (actif)</span>
-                                <div className="text-900 font-medium text-xl">152</div>
-                            </div>
-                            <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{width: '2.5rem', height: '2.5rem'}}>
-                                <i className="pi pi-user text-orange-500 text-xl"/>
-                            </div>
-                        </div>
-                        <span className="text-green-500 font-medium">24 new </span>
-                        <span className="text-500">since last visit</span>
-                </div>
-            </div>
+            <OrdersCard orders={statistics.orders}/>
 
-            <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0">
-                        <div className="flex justify-content-between mb-3">
-                            <div>
-                                <span className="block text-500 font-medium mb-3">Revenue</span>
-                                <div className="text-900 font-medium text-xl">10254dh</div>
-                            </div>
-                            <div className="flex align-items-center justify-content-center bg-green-100 border-round" style={{width: '2.5rem', height: '2.5rem'}}>
-                                <i className="pi pi-dollar text-green-500 text-xl"/>
-                            </div>
-                        </div>
-                        <span className="text-green-500 font-medium">24 new </span>
-                        <span className="text-500">since last visit</span>
+            <CustomersCard totalCustomers={statistics.totalCustomers}/>
+
+            <RevenueCard revenue={statistics.orders.revenue}/>
+
+        </div>
+
+        {/* DATATABLE */}
+        <div className="grid">
+                <div className="col-12">
+                    <div className="card">
+
+                    <DataTable 
+                    paginator 
+                    lazy
+                    first={lazyParams.first}
+                    loading={loading}
+                    rows={10} 
+                    totalRecords={totalRecords} 
+                    onPage={onPage} 
+                    size='small' 
+                    ref={dt} 
+                    value={products} 
+                    responsiveLayout="scroll"
+                    rowHover
+                    header={header} 
+                    dataKey="id" 
+                    paginatorTemplate=" PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
+                    currentPageReportTemplate="afficher {first} à {last} de {totalRecords} produits"
+                    className="datatable-responsive"
+                    emptyMessage="aucun commande trouvée">
+                            <Column field="reference" header="sku"></Column>
+                            <Column field="nameProduct" header="nom"></Column>
+                            <Column field="totalOrdered" header="nombre de ventes"></Column>
+                    </DataTable>
+                    </div>
                 </div>
-            </div>
-         </div>
+        </div>
+        </>
+        
     );
 }
 
-const comparisonFn = function (prevProps, nextProps) {
-    return (prevProps.location.pathname === nextProps.location.pathname) && (prevProps.colorMode === nextProps.colorMode);
-};
 
-export default React.memo(Dashboard, comparisonFn);
+export default Dashboard;

@@ -5,7 +5,9 @@ import { AppConfig } from '../AppConfig'
 import { Formik } from 'formik';
 import * as Yup from 'yup'
 import { classNames } from 'primereact/utils';
-
+import api from '../utils/Api'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -23,6 +25,19 @@ const Login = () => {
 
     const onSubmit=(values,actions)=>{
         console.log(values)
+        const data = {
+            email: values.username,
+            password: values.password
+        }
+        api.post('admin/login', data)
+          .then(res => {
+                window.localStorage.setItem('userInfo', JSON.stringify(res.data));
+                window.location.replace("/dashboard");
+          })
+          .catch((err) => {
+               toast.error(err.response.data.message);
+               actions.setSubmitting(false)
+          })
     }
 
   return (
@@ -36,7 +51,7 @@ const Login = () => {
         <div className="col-12 lg:col-6 flex flex-column justify-content-center">
              
             <div className='p-8'>
-            <h3 className="m-0 text-start">se connecter</h3>
+            <h3 className="m-0 text-start text-2xl">se connecter</h3>
             <p className="m-0 mb-5 text-start">bienvenue au backoffice</p>
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ handleChange,handleBlur, handleSubmit,
@@ -55,7 +70,6 @@ const Login = () => {
                         onBlur={handleBlur('username')}
                         className={classNames({ 'c-input-invalid':  isFormFieldValid('username')},'c-input')}
                         placeholder='psuedo'/>
-                        {getFormErrorMessage('username')}
                     </div>
 
                     <div className="field flex flex-column">
@@ -74,13 +88,15 @@ const Login = () => {
                             <i className={inpuType==='password'?'pi pi-eye':'pi pi-eye-slash'}></i>
                         </div>
                         </div>
-                        {getFormErrorMessage('password')}
                     </div>
 
-                    <div className='flex align-items-center justify-content-center'>
+                    <div>
                     <Button onClick={handleSubmit} 
                     label="se connecter" 
-                    type='submit' />
+                    type='submit'
+                    loading={isSubmitting}
+                    disabled={isSubmitting}
+                    className='p-buttom-xl' />
                     </div>
                 
             </div>
@@ -88,6 +104,7 @@ const Login = () => {
             }}
             </Formik>
             </div>
+            
 
         </div>
 

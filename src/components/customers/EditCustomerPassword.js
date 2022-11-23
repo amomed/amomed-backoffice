@@ -40,7 +40,19 @@ const EditCustomerPassword = ({rowData}) => {
 
     return (
         <>
-        <Button icon="pi pi-lock" className="p-button-sm p-button-rounded p-button-text p-button-info" onClick={openModal} />
+        {/* <Button icon="pi pi-lock" 
+        className="p-button-sm p-button-rounded p-button-text p-button-info" 
+        onClick={openModal} /> */}
+
+        <div 
+          className='align-items-center flex p-2 pl-3 pr-6 menu-child'
+          onClick={openModal}
+          >
+              <i className='pi pi-lock'></i>
+              <span className='uppercase ml-2'>mot de pass</span>
+        </div>
+        
+        
         <Dialog draggable={false}
                 visible={dialogVisibility} 
                 breakpoints={{'1080px': '100vw', '640px': '100vw'}}

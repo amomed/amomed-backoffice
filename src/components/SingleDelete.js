@@ -40,8 +40,19 @@ const deleteCategoryDialogFooter = (
 
 return (
     <>
-    <Button icon="pi pi-trash" className="p-button-sm p-button-rounded p-button-text p-button-danger" onClick={() => confirmDeleteCategory()} />
-        <Dialog visible={deleteCategoryDialog} style={{ width: '450px' }} header="Confirmer" modal 
+    {/* <Button icon="pi pi-trash" 
+    className="p-button-sm p-button-rounded p-button-text p-button-danger" 
+    onClick={() => confirmDeleteCategory()} /> */}
+        
+    <div 
+          className='align-items-center flex p-2 pl-3 pr-6 menu-child'
+          onClick={() => confirmDeleteCategory()}
+          >
+              <i style={{color:'#f00'}} className='pi pi-trash'></i>
+              <span className='uppercase ml-2' style={{color:'#f00'}}>supprimmer</span>
+    </div>
+
+    <Dialog visible={deleteCategoryDialog} style={{ width: '450px' }} header="Confirmer" modal 
         footer={deleteCategoryDialogFooter} 
         onHide={hideDeleteCategoryDialog}>
 

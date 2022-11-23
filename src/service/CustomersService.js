@@ -29,11 +29,15 @@ export class CustomersService {
     }
 
     async getCustomers (lazyParams, totalRecords){
-        const {first, rows, page, filters : {customerType, active, city} } = lazyParams
+        const {first, rows, page, filters : {customerType, active, city, nameEntreprise, phoneNumber, ISE} } = lazyParams
         let parameters = `totalSkip=${first}&currentPage=${page}&totalDocuments=${totalRecords}`
         if(customerType != null) parameters += `&customerType=${customerType}`
         if(active != null) parameters += `&active=${active}`
         if(city != null) parameters += `&city=${city}`
+        if(nameEntreprise != null) parameters += `&nameEntreprise=${nameEntreprise}`
+        if(phoneNumber != null) parameters += `&phoneNumber=${phoneNumber}`
+        if(ISE != null) parameters += `&ISE=${ISE}`
+
 
         let response = {}
         try {

@@ -131,11 +131,13 @@ export default AddCategory
 
 const ImageUpload=({ form, field })=>{
     return(
+        
         <input
         name={field.name}
         type="file"
         accept="image/*"
         onChange={e => form.setFieldValue(field.name, e.target.files[0])}
       />
+      
     )
 }

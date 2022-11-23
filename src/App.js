@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import AppLayout from './routes/AppLayout';
+import AppLayout from './components/AppLayout';
 import Login from './pages/Login';
-
-
+import { UserProvider } from './context';
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
@@ -14,22 +13,15 @@ import './assets/layout/layout.scss';
 import './App.scss';
 import '../src/css/global.css'
 import 'react-toastify/dist/ReactToastify.css'; // react toastify css
-
+import { ToastContainer } from 'react-toastify';
 
 
 const App = () => {
- 
-    const [isLogged] = useState(true)
-
     return (
-    <>
-    {
-        !isLogged 
-        ? <Login/>
-        : <AppLayout/>
-    }
-    </>
-   
+        <UserProvider>
+            <AppLayout/>
+            <ToastContainer />
+        </UserProvider>
     );
 
 }

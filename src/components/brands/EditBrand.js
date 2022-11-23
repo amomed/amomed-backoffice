@@ -31,24 +31,21 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
     }
     
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('nom de marque obligatoire'),
-        status: Yup.bool()
+        name: Yup.string().required('nom de marque obligatoire')
     })
 
     const onSubmit = async (values,actions) => {
        if(values.deletedImage != null ){
             fileUploadRef.upload()
-            hideDialog()
         }
         else {
             const data = {
                 nameUnderCategory: values.name,
-                category: {
-                    _id: values.category
-                },
+                category: values.category,
                 active: values.status,
                 photo: {url: values.image}
             }
+            
             await updateSubCategory(values._id,data)
             hideDialog()
         }
@@ -58,26 +55,24 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
     const clearUrl = (url,setFieldValue)=>{
         setFieldValue('deletedImage',url)
         setFieldValue('image',null)
-
     }
 
     //-----------handle template images-------------//
     //when the selected images uploaded
     const myUploader = async(values,event) => {
         const files = event.files
-        const blob = await fetch(files[0].objectURL).then(r => r.blob()); //get blob url
+        const blob = await fetch(files[0]?.objectURL).then(r => r.blob()); //get blob url
         const category_url = await imageService.uploadImage(blob,`brands/${files[0].name}`) // upload to firebase and get url
         const data = {
             nameUnderCategory: values.name,
-            category: {
-                _id: values.category
-            },
+            category: values.category,
             active: values.status,
-            photo: {url: category_url.data}
+            photo: {url: category_url?.data}
         }
+        console.log(data)
         await imageService.deletImage(values.deletedImage)
         await updateSubCategory(values._id,data)
-        fileUploadRef.clear()
+        hideDialog()
     }
 
     //when an image added
@@ -99,11 +94,11 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
 
     }
 
-    const headerTemplate = (options) => {
+    const headerTemplate = (options, deletedImage) => {
         const { className, chooseButton, cancelButton } = options;
         return (
             <div className={className} style={{backgroundColor: 'transparent', display: 'flex', alignItems: 'center'}}>
-                {numberFiles === 0 && chooseButton}
+                {deletedImage != null  && chooseButton}
                 {cancelButton}
             </div>
         );
@@ -116,7 +111,7 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
     
     {/* MODAL */}
     <Dialog draggable={false} visible={dialogVisibility} breakpoints={{'1900px': '60vw', '640px': '100vw'}}
-        header="Ajouter nouveau catégorie" modal 
+        header="Modifier marque" modal 
         className="p-fluid" onHide={hideDialog}>
         
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
@@ -186,7 +181,7 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
             url="https://primefaces.org/primereact/showcase/upload.php" 
             accept="image/*" 
             maxFileSize={2000000}
-            headerTemplate={headerTemplate}
+            headerTemplate={(options) => headerTemplate(options,values.deletedImage)}
             uploadHandler={(e) => myUploader(values,e)}
             onSelect={(e) => onTemplateSelect(e,setFieldValue)}
             onError={(e) => onTemplateClear(e,setFieldValue)} 
