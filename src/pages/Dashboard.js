@@ -122,7 +122,7 @@ const Dashboard = () => {
 
             <CustomersCard totalCustomers={statistics.totalCustomers}/>
 
-            <RevenueCard revenue={statistics.orders.revenue}/>
+            <RevenueCard revenue={statistics?.orders?.revenue}/>
 
         </div>
 

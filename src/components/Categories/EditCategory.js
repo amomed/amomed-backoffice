@@ -54,6 +54,7 @@ const EditCategory = ({rowData,updateCtagory}) => {
     const clearUrl = (url,setFieldValue)=>{
         setFieldValue('deletedImage',url)
         setFieldValue('image',null)
+        setNumberFiles(0)
 
     }
 
