@@ -24,6 +24,8 @@ const Phones = ({phones, addAmomedInfo, deleteAmomedInfo}) => {
     <div className="col-12 lg:col-6 xl:col-6">
                 <div className="card p-fluid">
                 <h4>numéro de télephone de support</h4>
+                {phones && 
+                <>
                 {phones.map(phone => (
                 <div className='flex mb-1'>
                     <div className="p-inputgroup">
@@ -35,6 +37,8 @@ const Phones = ({phones, addAmomedInfo, deleteAmomedInfo}) => {
                     <RemoveButton onRemoveClicked={onRemoveClicked} phone={phone} />
                 </div>
                 ))}
+                </>
+                }   
                 <div className='flex mt-2'>
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">+212</span>

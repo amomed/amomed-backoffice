@@ -53,9 +53,9 @@ const Settings = () => {
       {!loading && 
         <div className="grid">
         {/* <AdminTable/>  */}
-        <Phones phones = {amomedInfo.phonesNumbers} addAmomedInfo={addAmomedInfo} deleteAmomedInfo={_deleteAmomedInfo}/>
-        <Emails emails ={amomedInfo.emails} addAmomedInfo={addAmomedInfo} deleteAmomedInfo={_deleteAmomedInfo}/>
-        <Terms termsConditions={amomedInfo.termsConditions} addAmomedInfo={addAmomedInfo} deleteAmomedInfo={_deleteAmomedInfo} />
+        <Phones phones = {amomedInfo?.phonesNumbers} addAmomedInfo={addAmomedInfo} deleteAmomedInfo={_deleteAmomedInfo}/>
+        <Emails emails ={amomedInfo?.emails} addAmomedInfo={addAmomedInfo} deleteAmomedInfo={_deleteAmomedInfo}/>
+        <Terms termsConditions={amomedInfo?.termsConditions} addAmomedInfo={addAmomedInfo} deleteAmomedInfo={_deleteAmomedInfo} />
         </div>    
       }
     </div>  

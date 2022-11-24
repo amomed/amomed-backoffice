@@ -19,6 +19,8 @@ const Emails = ({emails, addAmomedInfo, deleteAmomedInfo}) => {
     <div className="col-12 lg:col-6 xl:col-6">
                 <div className="card p-fluid">
                 <h4>les émails de support</h4>
+                {emails &&
+                <>
                 {emails.map(email => (
                 <div className='flex mb-1'>
                     <div className="p-inputgroup">
@@ -28,6 +30,8 @@ const Emails = ({emails, addAmomedInfo, deleteAmomedInfo}) => {
                     <RemoveButton onRemoveClicked={onRemoveClicked} email={email} />
                 </div>
                 ))}
+                </>
+                }
                 <div className='flex mt-2'>
                     <div className="p-inputgroup">
                         <InputText placeholder="email d'admin" value={emailValue} onChange={(e) => setEmailValue(e.target.value)} />
