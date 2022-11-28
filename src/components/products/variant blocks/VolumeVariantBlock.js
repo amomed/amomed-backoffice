@@ -174,7 +174,6 @@ const WithColor=({pushVariants})=>{
     colorFilter()
   },[options])
   
-  
   return (
     <>
     <div className='card flex flex-column w-full mt-4 surface-200'>

@@ -58,6 +58,7 @@ const WithColor=({editVariant, variantData})=>{
     })
     setOptions(variantData.item.colors)
   },[variantData])
+  console.log(values.color)
 
   const handleVariantInputChange = (e) => {
     const { name, value } = e.target;
@@ -184,7 +185,6 @@ const WithColor=({editVariant, variantData})=>{
     colorFilter()
   },[options])
   
-  
   return (
     <>
     <div className='card flex flex-column w-full mt-4 surface-200'>
@@ -246,7 +246,7 @@ const WithColor=({editVariant, variantData})=>{
             return(
               <div key={index} className='justify-content-between align-items-center flex w-full'>
                 <div className='w-full flex align-items-center'>
-                  <div className='mr-5'><p>{item.variantValue} ml</p></div>
+                  <div className='mr-5'><p>{values.variantValue} ml</p></div>
                   <div className='flex mr-5 w-2'>
                     <div style={{height:20,width:20,backgroundColor:item.color.codeColor}} />
                     <p className='ml-1'>{item.color.nameColor}</p>
@@ -438,7 +438,7 @@ const WithoutColor=({ editVariant, variantData}) => {
 
       <Button 
       onClick={_editVariant} 
-      icon='pi pi-plus' 
+      icon='pi pi-pencil' 
       label='modifier variable' 
       className='mt-4 p-button-secondary w-auto align-self-end' />
 
