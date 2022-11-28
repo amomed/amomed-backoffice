@@ -14,10 +14,10 @@ const OptionsMenu = ({rowData,setToggleMenu,toggleMenu,deleteProduct,categories,
           {
             rowData._id === toggleMenu 
               && <div className='pb-2 pt-2 options-menu'>
-                  <PreviewProduct rowData={rowData}/>
-                  <EditProduct rowData={rowData} categories={categories} setLazyParams={setLazyParams} />
-                  {rowData.hasVariant && <EditVariants productId={rowData._id} setLazyParams={setLazyParams}/>}
-                  <SingleDelete table='products' rowData={rowData} deleteProduct={deleteProduct} />
+                  <PreviewProduct rowData={rowData} setToggleMenu={setToggleMenu} />
+                  <EditProduct rowData={rowData} categories={categories} setLazyParams={setLazyParams} setToggleMenu={setToggleMenu}/>
+                  {rowData.hasVariant && <EditVariants productId={rowData._id} setLazyParams={setLazyParams} setToggleMenu={setToggleMenu} toggleMenu={toggleMenu}/>}
+                  <SingleDelete table='products' rowData={rowData} deleteProduct={deleteProduct} setToggleMenu={setToggleMenu}/>
               </div>
           }
        </>

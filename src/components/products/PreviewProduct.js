@@ -2,12 +2,16 @@ import React,{ useState } from 'react'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 
-const PreviewProduct = ({rowData}) => {
+const PreviewProduct = ({rowData,setToggleMenu}) => {
     const { nameProduct,priceProduct,photos,active,minOrderQuantity,reference,category,underCategory,description,quantityStock } = rowData
     const [dialogVisibility, setDialogVisibility] = useState(false);
-    const hideDialog = () => setDialogVisibility(false)
+    const hideDialog = () => {
+        setToggleMenu(null)
+        setDialogVisibility(false)
+    }
     const openModal = () => setDialogVisibility(true)
 
+    console.log(dialogVisibility,"from preview")
 
 
   return (

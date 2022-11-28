@@ -3,11 +3,14 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 
 
-const SingleDelete=({rowData,table, deleteProduct, _deleteCustomer})=> {
+const SingleDelete=({rowData,table, deleteProduct, _deleteCustomer,setToggleMenu})=> {
 
 const [deleteCategoryDialog, setDeleteCategorytDialog] = useState(false);
 const confirmDeleteCategory = () => setDeleteCategorytDialog(true) 
-const hideDeleteCategoryDialog = () => setDeleteCategorytDialog(false) 
+const hideDeleteCategoryDialog = () => {
+    setToggleMenu(null)
+    setDeleteCategorytDialog(false) 
+}
 
 const handleDelete = (_id) => {
     if (deleteProduct)
@@ -55,7 +58,6 @@ return (
     <Dialog visible={deleteCategoryDialog} style={{ width: '450px' }} header="Confirmer" modal 
         footer={deleteCategoryDialogFooter} 
         onHide={hideDeleteCategoryDialog}>
-
         <div className="flex align-items-center justify-content-center"> 
         <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
             <div className="flex flex-column align-items-start justify-content-center">

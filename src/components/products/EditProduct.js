@@ -16,14 +16,18 @@ import { ProductService } from '../../service/ProductService';
 import { VariantService } from '../../service/VariantService'
 
 
-const EditProduct = ({rowData,categories,setLazyParams}) => {
+const EditProduct = ({rowData,categories,setLazyParams,setToggleMenu}) => {
     const [dialogVisibility, setDialogVisibility] = useState(false);
     const [brands,setBrands] = useState([])
     const [variant, setVariant] = useState({})
     const [loadingVariant, setLoading] = useState(false)
     const {_id, nameProduct, category, underCategory,  photos, description, active, hasVariant } = rowData;
-    const hideDialog = () => setDialogVisibility(false)
+    const hideDialog = () => {
+        setToggleMenu(null)
+        setDialogVisibility(false)
+    }
     const openModal = () => setDialogVisibility(true)
+    
     const toast = React.useRef(null);
     let fileUploadRef = useRef(null);
 
@@ -52,9 +56,6 @@ const EditProduct = ({rowData,categories,setLazyParams}) => {
         category: Yup.string().required('catégorie obligatoire'),
         description: Yup.string().required('description obligatoire'),
     })
-
-
-  
 
     useEffect(() => {
         if(dialogVisibility){

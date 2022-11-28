@@ -70,7 +70,7 @@ const DATA = [
   }
 ]
 
-const EditVariants = ({productId, setLazyParams}) => {
+const EditVariants = ({productId, setLazyParams, setToggleMenu}) => {
 
     const variantService = new VariantService()
     const initialValues = {
@@ -104,8 +104,10 @@ const EditVariants = ({productId, setLazyParams}) => {
 
     const onVariantChange=(e)=> setSelectedVariant(e.value)
     const openModal = () => setDialogVisibility(true)
-    const hideDialog = () => setDialogVisibility(false)
-
+    const hideDialog = () => {
+      setToggleMenu(null)
+      setDialogVisibility(false)
+  }
     useEffect(() => {
       if(dialogVisibility) {
         getData()
