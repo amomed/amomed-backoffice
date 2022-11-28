@@ -49,7 +49,7 @@ const Variants = ({variantList,pushVariants,removeVariant}) => {
         else if(item?.size !== null) return <span className='w-2'>{item?.size}</span>
         else if(item?.volume !== null) return <span className='w-2'>{item?.volume} ml</span>
         else if(item?.shoeSize !== null) return <span className='w-2'>{item?.shoeSize}</span>
-        else if(item?.color !== null) return <span className='w-2'>{item?.color?.name}</span>
+        else if(item?.color !== null) return <span className='w-2'>{item?.color?.nameColor}</span>
     }
 
   return (

@@ -46,13 +46,14 @@ const ColorVariantBlock = ({pushVariants}) => {
         size:null,
         volume:null,
         shoeSize:null,
-        color:values.color,
+        color:{nameColor:values.color.name, codeColor: values.color.hex},
         dimensions: null,
         colors:[]
       }
       if(values.color !== '' && values.reference !== '' && values.priceProduct !=='' && values.quantityStock !== '' && values.minOrderQuantity !== '' ){
         console.log(data)
         pushVariants(data)
+        setValues(initialValues)
         setErrorMessage('')
       }else{
         setErrorMessage('remplir touts les champs')
@@ -80,11 +81,8 @@ const ColorVariantBlock = ({pushVariants}) => {
             <label className='text-sm'>prix</label>
           </div>
         </div>
-  
-        
-  
-          <div className='mt-3 flex justify-content-between'>
 
+          <div className='mt-3 flex justify-content-between'>
             <div className='mr-2 w-4'>
             <Dropdown 
             value={values.color} 
@@ -125,7 +123,6 @@ const ColorVariantBlock = ({pushVariants}) => {
         icon='pi pi-plus' 
         label='ajouter variable' 
         className='mt-3 p-button-secondary w-auto align-self-end' />
-  
       </div>
   )
 }

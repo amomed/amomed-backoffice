@@ -88,7 +88,7 @@ const WithColor=({pushVariants})=>{
           quantityStock:0,
           minOrderQuantity:1,
           variantValue:values.variantValue
-       }
+      }
       if(values.color !== '' && values.variantValue !== '' && values.quantityStock !== '' ){
         setOptions([...options,data])
         setValues(resetValues)
