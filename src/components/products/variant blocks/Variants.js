@@ -49,7 +49,7 @@ const Variants = ({variantList,pushVariants,removeVariant}) => {
         else if(item?.size !== null) return <span className='w-2'>{item?.size}</span>
         else if(item?.volume !== null) return <span className='w-2'>{item?.volume} ml</span>
         else if(item?.shoeSize !== null) return <span className='w-2'>{item?.shoeSize}</span>
-        else if(item?.color !== null) return <span className='w-2'>{item?.color?.nameColor}</span>
+        else if(item?.color.nameColor !== null) return <span className='w-2'>{item?.color?.nameColor}</span>
     }
 
   return (
@@ -92,7 +92,7 @@ const Variants = ({variantList,pushVariants,removeVariant}) => {
         <>
         {
             variantList.map((item,index)=>{
-                
+            
                 return(
                     <div key={index.toString()} 
                     className='justify-content-between align-items-center flex w-full card'>

@@ -1,66 +1,54 @@
 [
     {
-        "id":"1",
         "hex":"#6F7272",
         "name":"gris"
     },
     {
-        "id":"2",
         "hex":"#715A3A",
         "name":"camel"
     },
     {
-        "id":"3",
         "hex":"#847E60",
         "name":"taupe"
     },
     {
-        "id":"4",
         "hex":"#e68805",
         "name":"orange"
     },
     {
-        "id":"5",
         "hex":"#0e00ad",
         "name":"bleu"
     },
     {
-        "id":"6",
+
         "hex":"#00ad17",
         "name":"vert"
     },
     {
-        "id":"7",
         "hex":"#f6fa00",
         "name":"jaune"
     },
     {
-        "id":"8",
         "hex":"#704201",
         "name":"marron"
     },
     {
-        "id":"10",
         "hex":"#f4ffbf",
         "name":"beige"
     },
     {
-        "id":"9",
         "hex":"#ff00b7",
         "name":"rose"
     },
     {
-        "id":"10",
         "hex":"#fff",
         "name":"blanc"
     },
     {
-        "id":"11",
         "hex":"#f00",
         "name":"rouge"
     },
     {
-        "id":"12",
         "hex":"#252525",
         "name":"noir"
     }

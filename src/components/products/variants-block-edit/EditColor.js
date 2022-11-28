@@ -7,7 +7,7 @@ const COLORS = require('../../../utils/Colors.json')
 const EditColor = ({editVariant, variantData}) => {
 
   const initialValues = {
-      color: variantData.item.color,
+      color: {name:variantData.item.color.nameColor, hex:variantData.item.color.codeColor},
       quantityStock: variantData.item.quantityStock,
       minOrderQuantity: variantData.item.minOrderQuantity,
       priceProduct: variantData.item.priceProduct,
@@ -20,7 +20,7 @@ const EditColor = ({editVariant, variantData}) => {
   useEffect(() => {
     setValues({
       _id: variantData.item._id,
-      color: variantData.item.color,
+      color: {name:variantData.item.color.nameColor, hex:variantData.item.color.codeColor},
       quantityStock: variantData.item.quantityStock,
       variantValue:variantData.item.color,
       minOrderQuantity:variantData.item.minOrderQuantity,
@@ -57,7 +57,7 @@ const EditColor = ({editVariant, variantData}) => {
       size:null,
       volume:null,
       shoeSize:null,
-      color:values.color,
+      color:{nameColor:values.color.name, codeColor:values.color.hex},
       dimensions: null,
       colors:[]
     }
