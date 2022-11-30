@@ -7,9 +7,12 @@ const StatusMenu = ({rowData,setToggleMenu,toggleMenu, updateOrderStatus}) => {
 // MENU ITEMS
 const Items=()=>{
 
-let orderStatus = ['EN COURS','ÉXPEDIÉ','LIVRÉ','RETOUR','ANNULÉE']
-let filteredStatus = orderStatus.filter(val => val !== rowData.status)
-
+  let filteredStatus = []
+  switch(rowData.status){
+    case 'EN COURS' : filteredStatus = ['ÉXPEDIÉ','ANNULÉE']; break;
+    case 'ÉXPEDIÉ' : filteredStatus = ['LIVRÉ']; break;
+    case 'LIVRÉ' : filteredStatus = ['RETOUR']; break;
+  }
 
   const iconType = (st) => {
     if(st === 'LIVRÉ'){
@@ -28,8 +31,6 @@ let filteredStatus = orderStatus.filter(val => val !== rowData.status)
     updateOrderStatus(rowData)
     setToggleMenu(rowData._id === toggleMenu ? null : rowData._id )
   }
-
-
 
   return(
     <>

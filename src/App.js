@@ -17,6 +17,11 @@ import { ToastContainer } from 'react-toastify';
 
 
 const App = () => {
+    
+    useEffect(() => {
+        document.title = 'Amomed backoffice | Admin';
+      }, []);
+
     return (
         <UserProvider>
             <AppLayout/>

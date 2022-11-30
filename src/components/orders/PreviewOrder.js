@@ -7,12 +7,11 @@ import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 
 const PreviewOrder = ({rowData}) => {
-    const { customer, date, quantityTotal, totalPriceOrder, status, orderDetail } = rowData
+    const {numOrder, customer, date, quantityTotal, totalPriceOrder, status, orderDetail } = rowData
     const [dialogVisibility, setDialogVisibility] = useState(false);
     const hideDialog = () => setDialogVisibility(false)
     const openModal = () => setDialogVisibility(true)
     const dt = useRef(null);
-
 
     const items = [
         {
@@ -50,7 +49,7 @@ const PreviewOrder = ({rowData}) => {
     }
 
     const imageTemplate=(rowData)=>{
-        const { product } = rowData
+        const { product, color, variant } = rowData
         return(
             <>
             {
@@ -62,20 +61,42 @@ const PreviewOrder = ({rowData}) => {
         )
     }
 
-    console.log(orderDetail)
 
     const productNameTemplate=(rowData)=>{
-        const { product } = rowData
+        console.log('rowData', rowData)
+        const { product, color, variant } = rowData
         return(
             <>
             {
                 product !== null
-                ? <p>{product?.nameProduct}</p>
+                ? <>
+                 <p style={{fontSize:12}}>{product?.nameProduct}</p>
+                 <p style={{fontSize:12}}>{displayVariants(variant,color)}</p>
+                 </>
                 : <p style={{color:'#f00'}}>{"ce produit n'existe plus"}</p>
             }
             </>
         )
     }
+
+    function displayVariants(variant, selectedColor){
+        const {size, dimensions, volume, color, shoeSize} = variant
+        let text = ""
+        if(size != null)
+          text+= `taille : ${size} `
+        if(dimensions != null)
+          text+= `dimensions : ${dimensions} `
+        if(volume != null )
+          text+= `volume : ${volume} `
+        if(color.nameColor != null)
+          text+= `couleur : ${color.nameColor} `
+        if(shoeSize != null)
+          text+= `pointure : ${shoeSize} `
+        if(selectedColor.nameColor != null)
+          text+= `couleur : ${selectedColor.nameColor} `
+      
+        return text
+      }
 
   return (
     <>
@@ -112,7 +133,7 @@ const PreviewOrder = ({rowData}) => {
                     {/* NUM COMMANDE */}
                     <div className='mb-2 flex'>
                         <p className='mr-2'><b>numéro de commande :</b></p>
-                        <p>451284</p>
+                        <p>{numOrder}</p>
                     </div>
                     {/* DATE COMMANDE */}
                     <div className='mb-2 flex'>
@@ -185,6 +206,7 @@ const PreviewOrder = ({rowData}) => {
 
                 <DataTable size='small' 
                         stripedRows 
+                        rowHover
                         paginator
                         ref={dt} 
                         value={orderDetail} 
