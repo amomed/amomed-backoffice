@@ -17,6 +17,7 @@ export class SettingsService {
     async addAmomedInfo (amomedInfo){
         let response = {}
         try {
+            console.log(amomedInfo)
             const _amomedInfo = await Api.post(`amomedinfo/create`,amomedInfo)
             response.data = _amomedInfo.data
             return response

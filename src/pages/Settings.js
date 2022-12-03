@@ -12,7 +12,6 @@ const Settings = () => {
   const settingsService = new SettingsService()
   const [amomedInfo, setAmomedInfo] = useState({})
   const [loading, setLoading] = useState(true)
-
   useEffect(() => {
     getData()
   },[])
@@ -20,7 +19,7 @@ const Settings = () => {
   async function getData(){
     const response = await settingsService.getAmomedInfo()
     if(response.data){
-      setAmomedInfo(response.data[0])
+      response.data.length > 0 && setAmomedInfo(response.data[0])
     } else {
       console.log(response.error)
     }
@@ -28,8 +27,10 @@ const Settings = () => {
   }
 
   async function addAmomedInfo(_amomedInfo){
-    if(Object.keys(amomedInfo).length > 0)
+    console.log(amomedInfo)
+    if(Object.keys(amomedInfo).length > 0){
       _amomedInfo._id = amomedInfo._id
+    }
     const response = await settingsService.addAmomedInfo(_amomedInfo)
     if(response.data){
       getData()
