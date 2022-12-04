@@ -11,7 +11,7 @@ const Phones = ({phones, addAmomedInfo, deleteAmomedInfo}) => {
     const [phoneValue, setPhoneValue] = useState(null)
 
     const onAddClicked = async() => {
-        if(phoneValue.length === 9)
+        if(phoneValue.length === 9 || phoneValue.length === 10)
             await addAmomedInfo({phoneNumber: phoneValue})
     }
 
