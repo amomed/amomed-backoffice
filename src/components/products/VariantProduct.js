@@ -56,19 +56,22 @@ const VariantProduct = ({categories,hideDialog,setLazyParams}) => {
  
      //when the selected images uploaded
      const myUploader = async(values,event) => {
-         setloading(true)
-         let firebaseUrl = []
-         const imageService = new ImageService()
-         const files = event.files
+        if(variantList.length !== 0 ){
+            setloading(true)
+            let firebaseUrl = []
+            const imageService = new ImageService()
+            const files = event.files
+            
+            for(let i =0; i < files.length; i++ ){
+                const blob = await fetch(files[i].objectURL).then(r => r.blob()); //get blob url
+                const url_product = await imageService.uploadImage(blob,`products/${files[i].name}`) // upload to firebase and get url
+                firebaseUrl.push(url_product.data)
+            }
+            values.photos = firebaseUrl
+            await _addProduct(values)
+            setloading(false)
+        }else alert('variant needed')
          
-         for(let i =0; i < files.length; i++ ){
-             const blob = await fetch(files[i].objectURL).then(r => r.blob()); //get blob url
-             const url_product = await imageService.uploadImage(blob,`products/${files[i].name}`) // upload to firebase and get url
-             firebaseUrl.push(url_product.data)
-         }
-         values.photos = firebaseUrl
-         await _addProduct(values)
-         setloading(false)
  
     }
  
