@@ -214,7 +214,7 @@ const Orders = () => {
                 }
 
             {/* STATUS CHANGE */}
-            { rowData.status !== 'RETOUR' 
+            { (rowData.status !== 'RETOUR' || rowData.status !== 'ANNULÉE')
             && <StatusMenu 
             rowData={rowData} 
             setToggleMenu={setToggleMenu} 
