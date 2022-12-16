@@ -121,6 +121,7 @@ const EditProduct = ({rowData,categories,setLazyParams,setToggleMenu}) => {
                     selectedCategory: null,
                     active: null,
                     reference: null,
+                    nameProduct: null,
                 },
                 sortfield: null,
                 sortorder: -1

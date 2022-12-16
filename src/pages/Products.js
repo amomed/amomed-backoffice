@@ -31,6 +31,7 @@ const Products = () => {
             selectedCategory: null,
             active: null,
             reference: null,
+            nameProduct : null,
         },
         sortfield: null,
         sortorder: -1
@@ -91,12 +92,6 @@ const Products = () => {
         
     }
 
-
-    const skuTemplate=(rowData)=>{
-        return(
-            <p style={{width:150}}>{rowData.reference}</p>
-        )
-    }
 
     const imageTemplate = (rowData) => {
         if(rowData.photos){
@@ -164,6 +159,7 @@ const Products = () => {
                 selectedCategory: lazyParams.filters.selectedCategory,
                 active: lazyParams.filters.active,
                 reference: lazyParams.filters.reference,
+                nameProduct: lazyParams.filters.nameProduct,
             },
             sortfield: lazyParams.sortfield,
             sortorder: lazyParams.sortorder,
@@ -190,6 +186,7 @@ const Products = () => {
                 selectedCategory: lazyParams.filters.selectedCategory,
                 active: lazyParams.filters.active,
                 reference: lazyParams.filters.reference,
+                nameProduct: lazyParams.filters.nameProduct,
             },
             sortfield: event.sortField,
             sortorder: sortorder
@@ -205,6 +202,7 @@ const Products = () => {
                 selectedCategory: event.value,
                 active: lazyParams.filters.active,
                 reference: lazyParams.filters.reference,
+                nameProduct: lazyParams.filters.nameProduct,
             },
             sortfield: null,
             sortorder: -1
@@ -231,15 +229,18 @@ const Products = () => {
         }
     }
 
-    const onSkuChanged = (event) => {
+  
+
+    const onNameProductChanged = (event) => {
         setLazyParams({
             first: 0,
             rows: 10,
             page: 1,
             filters : {
-                selectedCategory: event.value,
+                selectedCategory: lazyParams.filters.selectedCategory,
                 active: lazyParams.filters.active,
-                reference: event.target.value,
+                reference: lazyParams.filters.reference,
+                nameProduct: event.target.value,
             },
             sortfield: null,
             sortorder: -1
@@ -262,11 +263,12 @@ const Products = () => {
                   className="p-column-filter" />; 
     }
 
-    const skuFilter=()=>{
+
+    const nameProductFilter=()=>{
         return(
-          <InputText placeholder='sku' onChange={onSkuChanged} />
+          <InputText placeholder='npm de produit' onChange={onNameProductChanged} value={lazyParams.filters.nameProduct}/>
         )
-    }
+      }
 
       console.log('products :',products)
 
@@ -299,9 +301,8 @@ const Products = () => {
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
                     emptyMessage="aucune produit trouvée">
-                            {/* <Column filter showFilterMenu={false} filterElement={skuFilter} field="reference" header="SKU" body={skuTemplate}></Column> */}
                             <Column field="category.nameCategory" header="categorie" filter showFilterMenu={false} filterElement={categoryFilter}></Column>
-                            <Column field="nameProduct" header="nom"></Column>
+                            <Column field="nameProduct" header="nom" filter showFilterMenu={false} filterElement={nameProductFilter} ></Column>
                             <Column field="photos" header="image" body={imageTemplate}></Column>
                             <Column sortable field="priceProduct" header="prix" body={priceTemplate}></Column>
                             <Column sortable field="quantityStock" header="quantité" body={quantityTemplate}></Column>

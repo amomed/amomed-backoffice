@@ -4,13 +4,15 @@ export class ProductService {
 
     async getProducts(lazyParams,totalRecords) {
 
-        const {first, rows, page, filters : {active, selectedCategory, reference}, sortfield, sortorder } = lazyParams
+        const {first, rows, page, filters : {active, selectedCategory, reference, nameProduct}, sortfield, sortorder } = lazyParams
         let response = {}
         const _sortfield = sortfield == null ? '_id' : sortfield
         let parameters = `totalSkip=${first}&currentPage=${page}&totalDocuments=${totalRecords}&sortfield=${_sortfield}&sortorder=${sortorder}`
         if(active != null) parameters += `&active=${active}`
         if(selectedCategory != null) parameters += `&category=${selectedCategory}`
         if(reference != null) parameters += `&reference=${reference}`
+        if(nameProduct != null) parameters += `&nameProduct=${nameProduct}`
+
         try {
             const products = await Api.get(`product/backoffice?${parameters}`)
             response.data = products.data
