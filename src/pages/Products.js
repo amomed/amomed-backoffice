@@ -266,7 +266,7 @@ const Products = () => {
 
     const nameProductFilter=()=>{
         return(
-          <InputText placeholder='npm de produit' onChange={onNameProductChanged} value={lazyParams.filters.nameProduct}/>
+          <InputText placeholder='nom de produit' onChange={onNameProductChanged} value={lazyParams.filters.nameProduct}/>
         )
       }
 
