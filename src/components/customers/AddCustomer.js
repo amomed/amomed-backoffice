@@ -37,7 +37,7 @@ const AddCustomer = ({types, setLazyParams}) => {
         address: Yup.string().required('address obligatoire'),
         type: Yup.string().required('type obligatoire'),
         ville: Yup.string().required('ville obligatoire'),
-        password: Yup.number().required('mot de pass obligatoire') 
+        password: Yup.string().required('mot de pass obligatoire') 
     })
 
 
