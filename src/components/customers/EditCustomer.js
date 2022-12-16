@@ -63,7 +63,7 @@ const EditCustomer = ({rowData, types, setLazyParams}) => {
             hideDialog()
             setLazyParams({
                 first: 0,
-                rows: 2,
+                rows: 10,
                 page: 1,
                 filters : {
                     customerType: null,

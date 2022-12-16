@@ -32,7 +32,7 @@ const Customers = () => {
     const [toggleMenu, setToggleMenu] = useState(null); // toggle menu state
     const [lazyParams, setLazyParams] = useState({
       first: 0,
-      rows: 2,
+      rows: 10,
       page: 1,
       filters : {
           customerType: null,
@@ -156,7 +156,7 @@ const Customers = () => {
   const onChangeType = (e) => {
     setLazyParams({
       first: 0,
-      rows: 2,
+      rows: 10,
       page: 1,
       filters : {
         customerType: e.value,
@@ -173,7 +173,7 @@ const Customers = () => {
     const city = e.value == "Toutes les villes" ? null : e.value
     setLazyParams({
       first: 0,
-      rows: 2,
+      rows: 10,
       page: 1,
       filters : {
           customerType: lazyParams.filters.customerType,
@@ -189,7 +189,7 @@ const Customers = () => {
   const onPage = (event) => {
     setLazyParams({
         first: event.first,
-        rows: 2,
+        rows: 10,
         page: event.page + 1,
         filters : {
           customerType: lazyParams.filters.customerType,
@@ -252,7 +252,7 @@ const Customers = () => {
   const onIceChanged = (event) => {
     setLazyParams({
       first: 0,
-      rows: 2,
+      rows: 10,
       page: 1,
       filters : {
         customerType: lazyParams.filters.customerType,
@@ -268,7 +268,7 @@ const Customers = () => {
   const onNameChanged = (event) => {
     setLazyParams({
       first: 0,
-      rows: 2,
+      rows: 10,
       page: 1,
       filters : {
         customerType: lazyParams.filters.customerType,
@@ -284,7 +284,7 @@ const Customers = () => {
   const onPhoneNumberChanged = (event) => {
     setLazyParams({
       first: 0,
-      rows: 2,
+      rows: 10,
       page: 1,
       filters : {
         customerType: lazyParams.filters.customerType,
@@ -310,7 +310,7 @@ const Customers = () => {
                        lazy
                        first={lazyParams.first}
                        loading={loading}
-                       rows={2} 
+                       rows={10} 
                        totalRecords={totalRecords} 
                        onPage={onPage} 
                        filterDisplay="row"
