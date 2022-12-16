@@ -150,7 +150,6 @@ const Dashboard = () => {
                     currentPageReportTemplate="afficher {first} à {last} de {totalRecords} produits"
                     className="datatable-responsive"
                     emptyMessage="aucun commande trouvée">
-                            <Column field="reference" header="sku"></Column>
                             <Column field="nameProduct" header="nom"></Column>
                             <Column field="totalOrdered" header="nombre de ventes"></Column>
                     </DataTable>
