@@ -199,12 +199,13 @@ const Orders = () => {
                     toggleOptions === rowData._id && 
                     <>
                         <PreviewOrder rowData={rowData} />
-                        <Button tooltip='imprimé BL' 
+                        <Button tooltip='Imprimer BL' 
                         tooltipOptions={{position:'bottom'}}
                                 type="button" 
                                 icon="pi pi-file" 
                                 className="p-button-sm p-button-rounded p-button-outlined p-button-text p-button-success"/>
-                        <Button tooltip='imprimé facture' 
+                        <Button tooltip='Imprimer facture'
+                        onClick={() => {window.open(rowData.urlFacture)}}
                         tooltipOptions={{position:'bottom'}}
                                 type="button" 
                                 icon="pi pi-print" 
