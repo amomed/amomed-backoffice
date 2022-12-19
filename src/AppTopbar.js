@@ -15,7 +15,7 @@ export const AppTopbar = (props) => {
                 <i className="pi pi-bars"/>
             </button>
 
-            <Link to="/" className="layout-topbar-logo">
+            <Link to="/dashboard" className="layout-topbar-logo">
                 <img src='assets/layout/images/logo.png' alt="logo"/>
                 <span>Amomed backoffice</span>
             </Link>
