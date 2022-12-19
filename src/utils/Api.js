@@ -6,7 +6,7 @@ const prod_url = "https://amomedbackend.com/api/"
 const local_url = "http://192.168.3.188:3000/api/"
 
 const Api = axios.create({
-    baseURL: local_url
+    baseURL: prod_url
 });
 
 export default Api
