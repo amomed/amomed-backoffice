@@ -402,9 +402,8 @@ const EditProduct = ({rowData,categories,setLazyParams,setToggleMenu}) => {
                     disabled={isSubmitting}
                     onClick={handleSubmit} 
                     loading={isSubmitting}
-                    label={'modifier'}
-                    className='w-auto p-button-text p-button-warning' 
-                    icon="pi pi-pencil"  
+                    label={'sauvegarder'}
+                    className='w-auto p-button-success'
                     type='submit' /> 
                 </div>
                 </>

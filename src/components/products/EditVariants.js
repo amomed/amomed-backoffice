@@ -25,51 +25,6 @@ const VARIANTS = [
   { value:'Volume', name: 'Volume', id: '4' }
 ];
 
-const DATA = [
-  {
-    priceProduct:500,
-    quantityStock:0,
-    minOrderQuantity:20,
-    reference:'sku123456',
-    size:null,
-    dimensions:'15x15',
-    volume:null,
-    color:{nameColor: null, codeColor:null},
-    shoeSize:null,
-    colors:[
-      {
-        color:{ nameColor:'rouge',  codeColor:'#f00' },
-        quantityStock:120
-      },
-      {
-        color:{ nameColor:'jaune',  codeColor:'#f6fa00' },
-        quantityStock:50
-      },
-      {
-        color:{ nameColor:'rose',  codeColor:'#ff00b7' },
-        quantityStock:10
-      }
-    ]
-  },
-  {
-    priceProduct:120,
-    quantityStock:0,
-    minOrderQuantity:20,
-    size:null,
-    reference:'sku0012',
-    dimensions:'120x40',
-    volume:null,
-    color:{nameColor: null, codeColor:null},
-    shoeSize:null,
-    colors:[
-      {
-        color:{ nameColor:'orange',  codeColor:'#e68805' },
-        quantityStock:95
-      }
-    ]
-  }
-]
-
 const EditVariants = ({productId, setLazyParams, setToggleMenu}) => {
 
     const variantService = new VariantService()
@@ -191,7 +146,7 @@ const EditVariants = ({productId, setLazyParams, setToggleMenu}) => {
     }
 
     const editVariant = (index, data) => {
-      setVisiblityBlocks({addBlock:false, editBlock: true})
+      setVisiblityBlocks({addBlock:false, editBlock: false})
       const _variants = [...variantData]
       _variants[index] = data
       setVariantData(_variants)
@@ -228,6 +183,7 @@ const EditVariants = ({productId, setLazyParams, setToggleMenu}) => {
     }
 
     const onSave = async () => {
+      console.log(variantData)
       setLoading(true)
       const variantService = new VariantService()
       for (let i = 0 ; i<variantData.length ; i++) {
@@ -406,9 +362,8 @@ const EditVariants = ({productId, setLazyParams, setToggleMenu}) => {
               <Button
                 loading={loading}
                 onClick={() => onSave()}
-                label={loading ? 'loading' : 'modifier'}
+                label={loading ? 'loading' : 'sauvegarder'}
                 className='w-auto p-button-success' 
-                icon='pi pi-pencil'
                 type='submit' /> 
           </div>  
         </div>

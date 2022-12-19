@@ -135,7 +135,7 @@ const WithColor=({editVariant, variantData})=>{
       size:null,
       volume:values.variantValue,
       shoeSize:null,
-      color:null,
+      color: {nameColor: null, codeColor: null},
       dimensions: null ,
       colors: colorArr
     }
@@ -359,7 +359,7 @@ const WithoutColor=({ editVariant, variantData}) => {
       size:null,
       volume:values.variantValue,
       shoeSize:null,
-      color:null,
+      color: {nameColor: null, codeColor: null},
       dimensions: null,
       colors: []
     }

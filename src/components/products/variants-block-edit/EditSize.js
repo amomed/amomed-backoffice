@@ -27,7 +27,7 @@ const WithColor=({editVariant, variantData})=>{
   const [options,setOptions]=useState([])
   const [colors,setColors]=useState(COLORS)
   const [values, setValues] = useState({
-    color: null,
+    color: {nameColor: null, codeColor: null},
     quantityStock: variantData.item.quantityStock,
     variantValue:variantData.item.size
   });
@@ -41,7 +41,7 @@ const WithColor=({editVariant, variantData})=>{
 
   useEffect(() => {
     setValues({
-      color: null,
+      color: {nameColor: null, codeColor: null},
       quantityStock: variantData.item.quantityStock,
       variantValue:variantData.item.size
     })
@@ -127,7 +127,7 @@ const WithColor=({editVariant, variantData})=>{
       size:values.variantValue,
       volume:null,
       shoeSize:null,
-      color:null,
+      color: {nameColor: null, codeColor: null},
       dimensions: null ,
       colors: colorArr
     }
@@ -324,7 +324,7 @@ const WithoutColor=({editVariant, variantData})=>{
   useEffect(() => {
     setValues({
       _id: variantData.item._id,
-      color: null,
+      color: {nameColor: null, codeColor: null},
       quantityStock: variantData.item.quantityStock,
       variantValue:variantData.item.size,
       minOrderQuantity:variantData.item.minOrderQuantity,
@@ -352,7 +352,7 @@ const WithoutColor=({editVariant, variantData})=>{
       size:values.variantValue,
       volume:null,
       shoeSize:null,
-      color:null,
+      color: {nameColor: null, codeColor: null},
       dimensions: null,
       colors: []
     }

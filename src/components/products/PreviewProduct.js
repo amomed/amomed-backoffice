@@ -3,16 +3,13 @@ import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 
 const PreviewProduct = ({rowData,setToggleMenu}) => {
-    const { nameProduct,priceProduct,photos,active,minOrderQuantity,reference,category,underCategory,description,quantityStock } = rowData
+    const { nameProduct,photos,active,category,underCategory,description,quantityStock } = rowData
     const [dialogVisibility, setDialogVisibility] = useState(false);
     const hideDialog = () => {
         setToggleMenu(null)
         setDialogVisibility(false)
     }
     const openModal = () => setDialogVisibility(true)
-
-    console.log(dialogVisibility,"from preview")
-
 
   return (
     <>
@@ -33,44 +30,32 @@ const PreviewProduct = ({rowData,setToggleMenu}) => {
             <div className='grid'>
             <div className='col-6'>
                 <div className='flex pb-2'>
-                    <p className='text-lg font-bold mr-3'>sku :</p>
-                    <p className='text-base'>{reference}</p>
-                </div>
-                <div className='flex pb-2'>
-                    <p className='text-lg font-bold mr-3'>nom :</p>
+                    <p className='text-lg font-bold mr-3'>nom:</p>
                     <p className='text-base'>{nameProduct}</p>
                 </div>
                 <div className='flex pb-2'>
-                    <p className='text-lg font-bold mr-3'>catégorie :</p>
+                    <p className='text-lg font-bold mr-3'>catégorie:</p>
                     <p className='text-base'>{category.nameCategory}</p>
                 </div>
                 {
                     underCategory && (
                     <div className='flex pb-2'>
-                        <p className='text-lg font-bold mr-3'>marque :</p>
+                        <p className='text-lg font-bold mr-3'>marque:</p>
                         <p className='text-base'>{underCategory}</p>
                     </div>
                     )
                 }
                 <div className='flex pb-2'>
-                    <p className='text-lg font-bold mr-3'>prix :</p>
-                    <p className='text-base'>{priceProduct}dh</p>
-                </div>
-                <div className='flex pb-2'>
-                    <p className='text-lg font-bold mr-3'>description :</p>
+                    <p className='text-lg font-bold mr-3'>description:</p>
                     <p className='text-base'>{description}</p>
                 </div>
                 <div className='flex pb-2'>
-                    <p className='text-lg font-bold mr-3'>quantité de stock :</p>
+                    <p className='text-lg font-bold mr-3'>quantité de stock:</p>
                     <p style={{color:quantityStock>20?'#1CA44E':'#F00'}} 
                     className='text-base font-bold'>{quantityStock}pcs</p>
                 </div>
                 <div className='flex pb-2'>
-                    <p className='text-lg font-bold mr-3'>quantité minimale pour commander :</p>
-                    <p className='text-base'>{minOrderQuantity}</p>
-                </div>
-                <div className='flex pb-2'>
-                    <p className='text-lg font-bold mr-3'>status :</p>
+                    <p className='text-lg font-bold mr-3'>status:</p>
                     <p className='text-base'>
                         {
                             active 
@@ -82,7 +67,7 @@ const PreviewProduct = ({rowData,setToggleMenu}) => {
             </div>
             <div className='col-6'>
                 <div className='flex-column pb-2'>
-                    <p className='text-lg font-bold'>images :</p>
+                    <p className='text-lg font-bold'>images:</p>
                     <div className='flex flex-wrap'>
                         {
                             photos.map((url,index)=>{
