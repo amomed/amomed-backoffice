@@ -364,7 +364,7 @@ const WithoutColor=({editVariant, variantData})=>{
     }
     
     if(values.variantValue !== '' && values.reference !== '' && values.priceProduct !== '' && values.quantityStock !== '' && values.minOrderQuantity !== ''){
-      editVariant(data, variantData.index)
+      editVariant(variantData.index, data)
       setErrorMessage('')
     }else{
       setErrorMessage('remplir tout les champs')
@@ -438,7 +438,7 @@ const WithoutColor=({editVariant, variantData})=>{
 
       <Button 
       onClick={addVariant} 
-      icon='pi pi-plus' 
+      icon='pi pi-pencil'
       label='modifier variable' 
       className='mt-4 p-button-secondary w-auto align-self-end' />
 

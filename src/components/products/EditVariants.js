@@ -149,6 +149,7 @@ const EditVariants = ({productId, setLazyParams, setToggleMenu}) => {
       setVisiblityBlocks({addBlock:false, editBlock: false})
       const _variants = [...variantData]
       _variants[index] = data
+      console.log(data)
       setVariantData(_variants)
     }
 
