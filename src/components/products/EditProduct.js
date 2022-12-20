@@ -16,7 +16,7 @@ import { ProductService } from '../../service/ProductService';
 import { VariantService } from '../../service/VariantService'
 
 
-const EditProduct = ({rowData,categories,setLazyParams,setToggleMenu}) => {
+const EditProduct = ({rowData,categories,setLazyParams,lazyParams,setToggleMenu}) => {
     const [dialogVisibility, setDialogVisibility] = useState(false);
     const [brands,setBrands] = useState([])
     const [variant, setVariant] = useState({})
@@ -114,18 +114,17 @@ const EditProduct = ({rowData,categories,setLazyParams,setToggleMenu}) => {
         if(response.data){
             hideDialog()
             setLazyParams({
-                first: 0,
-                rows: 10,
-                page: 1,
+                first: lazyParams.first,
+                rows: lazyParams.rows,
+                page: lazyParams.page,
                 filters : {
-                    selectedCategory: null,
-                    active: null,
-                    reference: null,
-                    nameProduct: null,
+                    selectedCategory: lazyParams.filters.selectedCategory,
+                    active: lazyParams.filters.active,
+                    reference: lazyParams.filters.reference,
                 },
-                sortfield: null,
-                sortorder: -1
-            })
+                sortfield: lazyParams.sortfield,
+                sortorder: lazyParams.sortorder
+              })
         } else {
             console.log(response.error)
         }
