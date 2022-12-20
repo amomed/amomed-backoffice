@@ -126,6 +126,7 @@ const Products = () => {
                 toggleMenu={toggleMenu} 
                 categories={categories2} 
                 setLazyParams={setLazyParams}
+                lazyParams={lazyParams}
                 deleteProduct={deleteProduct} />
             </div>
         );

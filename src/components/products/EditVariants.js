@@ -25,7 +25,7 @@ const VARIANTS = [
   { value:'Volume', name: 'Volume', id: '4' }
 ];
 
-const EditVariants = ({productId, setLazyParams, setToggleMenu}) => {
+const EditVariants = ({productId, setLazyParams, lazyParams, setToggleMenu}) => {
 
     const variantService = new VariantService()
     const initialValues = {
@@ -192,16 +192,16 @@ const EditVariants = ({productId, setLazyParams, setToggleMenu}) => {
       }
       hideDialog()
       setLazyParams({
-        first: 0,
-        rows: 2,
-        page: 1,
+        first: lazyParams.first,
+        rows: lazyParams.rows,
+        page: lazyParams.page,
         filters : {
-            selectedCategory: null,
-            active: null,
-            reference: null,
+            selectedCategory: lazyParams.filters.selectedCategory,
+            active: lazyParams.filters.active,
+            reference: lazyParams.filters.reference,
         },
-        sortfield: null,
-        sortorder: -1
+        sortfield: lazyParams.sortfield,
+        sortorder: lazyParams.sortorder
       })
       setLoading(false)
 

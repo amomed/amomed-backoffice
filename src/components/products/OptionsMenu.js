@@ -5,7 +5,7 @@ import EditProduct from './EditProduct'
 import SingleDelete from '../SingleDelete'
 import EditVariants from './EditVariants'
 
-const OptionsMenu = ({rowData,setToggleMenu,toggleMenu,deleteProduct,categories,setLazyParams}) => {
+const OptionsMenu = ({rowData,setToggleMenu,toggleMenu,deleteProduct,categories,setLazyParams,lazyParams}) => {
     return (
         <>
           <Button 
@@ -16,7 +16,7 @@ const OptionsMenu = ({rowData,setToggleMenu,toggleMenu,deleteProduct,categories,
               && <div className='pb-2 pt-2 options-menu'>
                   <PreviewProduct rowData={rowData} setToggleMenu={setToggleMenu} />
                   <EditProduct rowData={rowData} categories={categories} setLazyParams={setLazyParams} setToggleMenu={setToggleMenu}/>
-                  {rowData.hasVariant && <EditVariants productId={rowData._id} setLazyParams={setLazyParams} setToggleMenu={setToggleMenu} toggleMenu={toggleMenu}/>}
+                  {rowData.hasVariant && <EditVariants productId={rowData._id} setLazyParams={setLazyParams} setToggleMenu={setToggleMenu} toggleMenu={toggleMenu} lazyParams={lazyParams}/>}
                   <SingleDelete table='products' rowData={rowData} deleteProduct={deleteProduct} setToggleMenu={setToggleMenu}/>
               </div>
           }
