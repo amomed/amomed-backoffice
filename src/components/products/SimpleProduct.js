@@ -16,6 +16,8 @@ import {ImageService} from '../../service/ImageService';
 import { FileUpload } from 'primereact/fileupload';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Editor } from 'primereact/editor';
+import { v4 as uuidv4 } from 'uuid';
+
 
 const SimpleProduct = ({categories,hideDialog,dialogVisibility,setLazyParams,setDialogVisibility}) => {
     // const [categories, setCategories] = useState([])
@@ -65,7 +67,7 @@ const SimpleProduct = ({categories,hideDialog,dialogVisibility,setLazyParams,set
         
         for(let i =0; i < files.length; i++ ){
             const blob = await fetch(files[i].objectURL).then(r => r.blob()); //get blob url
-            const url_product = await imageService.uploadImage(blob,`products/${files[i].name}`) // upload to firebase and get url
+            const url_product = await imageService.uploadImage(blob,`products/${files[i].name}${uuidv4()}`) // upload to firebase and get url
             firebaseUrl.push(url_product.data)
         }
         values.photos = firebaseUrl

@@ -14,6 +14,8 @@ import { BrandsService } from '../../service/BrandsService';
 import { ImageService } from '../../service/ImageService';
 import { ProductService } from '../../service/ProductService';
 import { VariantService } from '../../service/VariantService'
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 const EditProduct = ({rowData,categories,setLazyParams,lazyParams,setToggleMenu}) => {
@@ -158,7 +160,7 @@ const EditProduct = ({rowData,categories,setLazyParams,lazyParams,setToggleMenu}
         
         for(let i =0; i < files.length; i++ ){
             const blob = await fetch(files[i].objectURL).then(r => r.blob()); //get blob url
-            const url_product = await imageService.uploadImage(blob,`products/${files[i].name}`) // upload to firebase and get url
+            const url_product = await imageService.uploadImage(blob,`products/${files[i].name}${uuidv4()}`) // upload to firebase and get url
             firebaseUrl.push(url_product.data)
         }
         values.photos = values.photos.length > 0 ? values.photos.concat(firebaseUrl) : firebaseUrl
