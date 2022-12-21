@@ -3,14 +3,6 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ProposalsService } from '../service/ProposalsService';
 
-const DATA=[
-  {
-    id:0,
-    customer:'pharmacie ritaj',
-    proposition:'doliprane',
-    date:'2022-10-07'
-  }
-]
 
 const Proposals = () => {
   const dt = useRef(null);

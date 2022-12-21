@@ -62,8 +62,6 @@ const Orders = () => {
         sortorder: -1
     });
 
-    console.log(typeof lazyParams.filters.date)
-
     addLocale('fr', {
         firstDayOfWeek: 1,
         dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
@@ -159,7 +157,6 @@ const Orders = () => {
         })
 
     }
-
 
     const onStatusChanged = (event) => {
         setLazyParams({

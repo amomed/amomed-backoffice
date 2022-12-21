@@ -15,14 +15,14 @@ const PreviewOrder = ({rowData}) => {
 
     const items = [
         {
-            label: 'imprimé BL',
+            label: 'Imprimer BL',
             icon: 'pi pi-file',
             command: () => {
                   alert('clicked')
             }
         },
         {
-            label: 'imprimé facture',
+            label: 'Imprimer facture',
             icon: 'pi pi-print',
             command: () => {
                   alert('clicked')
@@ -39,9 +39,9 @@ const PreviewOrder = ({rowData}) => {
     // ORDER STATUS
     const statusCheck=(status)=>{
         let severity=''
-        if(status === 'Livré') severity = 'success'
-        else if (status === 'Expédié') severity = 'info'
-        else if (status === 'Annulée') severity = 'danger'
+        if(status === 'LIVRÉ') severity = 'success'
+        else if (status === 'RETOUR') severity = 'info'
+        else if (status === 'ANNULÉE') severity = 'danger'
         else severity = 'warning'
         return(
             <Badge value={status} severity={severity} />
@@ -114,7 +114,7 @@ const PreviewOrder = ({rowData}) => {
             {/* HEADER */}
             <div className='grid mb-4'>
                 <div className='col-12 lg:col-6'>
-                    <p className='font-bold text-3xl'>Détail de commande 541283</p>
+                    <p className='font-bold text-3xl'>Détails de la commandee</p>
                 </div>
                 <div className='col-12 lg:col-6'>
                     <div className='w-auto flex justify-content-end'>
@@ -221,7 +221,7 @@ const PreviewOrder = ({rowData}) => {
                         emptyMessage="aucun commande trouvée">
                                 <Column field="product.nameProduct" header="produit" body={productNameTemplate} ></Column>
                                 <Column field="product.photos" header="image" body={imageTemplate}></Column>
-                                <Column field="product.priceProduct" header="prix unitaire"></Column>
+                                <Column field="variant.priceProduct" header="prix unitaire"></Column>
                                 <Column field="quantityOrdered" header="quantité" ></Column>
                                 <Column field="totalPrice" header="prix total" ></Column>
                         </DataTable>

@@ -1,27 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
-import { Toolbar } from 'primereact/toolbar';
-import { InputSwitch } from 'primereact/inputswitch';
 import { Badge } from 'primereact/badge';
-import PreviewProduct from '../components/products/PreviewProduct';
-import EditProduct from '../components/products/EditProduct';
-import SingleDelete from '../components/SingleDelete';
 import { Dropdown } from 'primereact/dropdown';
 import { ProductService } from '../service/ProductService';
 import { CategoryService } from '../service/CategoryService';
 import AddProduct from '../components/products/AddProduct';
 import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
 import OptionsMenu from '../components/products/OptionsMenu';
-
 
 const Products = () => {
 
+    const STATUS = [
+        {label: 'Toutes les status', value: null},
+        {label: 'activé', value: true},
+        {label: 'désactivé', value: false},
+    ]
     const [loading, setLoading] = useState(false);
     const [totalRecords, setTotalRecords] = useState(0);
-    const [toggleOptions, setToggleOptions] = useState(null); // toggle options state
     const [toggleMenu, setToggleMenu] = useState(null); // toggle menu state
     const [lazyParams, setLazyParams] = useState({
         first: 0,
@@ -248,6 +244,22 @@ const Products = () => {
         })
     }
 
+    const onChangeStatus = (event) => {
+        setLazyParams({
+            first: 0,
+            rows: 10,
+            page: 1,
+            filters : {
+                selectedCategory: lazyParams.filters.selectedCategory,
+                active: event.value,
+                reference: lazyParams.filters.reference,
+                nameProduct: lazyParams.filters.nameProduct,
+            },
+            sortfield: null,
+            sortorder: -1
+        })
+    }
+
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Gérer les produits</h5>
@@ -264,14 +276,21 @@ const Products = () => {
                   className="p-column-filter" />; 
     }
 
+    const statusFitler = () => {
+        return <Dropdown 
+                  value={lazyParams.filters.active}
+                  placeholder='Toutes les status'
+                  options={STATUS} 
+                  onChange={onChangeStatus}
+                  className="p-column-filter" />; 
+    }
+
 
     const nameProductFilter=()=>{
         return(
           <InputText placeholder='nom de produit' onChange={onNameProductChanged} value={lazyParams.filters.nameProduct}/>
         )
       }
-
-      console.log('products :',products)
 
   return (
     <div className="grid crud-demo">
@@ -305,9 +324,9 @@ const Products = () => {
                             <Column field="category.nameCategory" header="categorie" filter showFilterMenu={false} filterElement={categoryFilter}></Column>
                             <Column field="nameProduct" header="nom" filter showFilterMenu={false} filterElement={nameProductFilter} ></Column>
                             <Column field="photos" header="image" body={imageTemplate}></Column>
-                            <Column sortable field="priceProduct" header="prix" body={priceTemplate}></Column>
+                            <Column field="priceProduct" header="prix" body={priceTemplate}></Column>
                             <Column sortable field="quantityStock" header="quantité" body={quantityTemplate}></Column>
-                            <Column field="active" header="status" body={statusBodyTemplate}></Column>
+                            <Column field="active" header="status" body={statusBodyTemplate} filter filterElement={statusFitler} showFilterMenu={false}></Column>
                             <Column body={actionBodyTemplate}></Column>
                     </DataTable>
                 </div>

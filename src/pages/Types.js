@@ -6,7 +6,6 @@ import { Toolbar } from 'primereact/toolbar';
 import { InputText } from 'primereact/inputtext';
 import { TypesService } from '../service/TypesService';
 import { InputSwitch } from 'primereact/inputswitch';
-import SingleDelete from '../components/SingleDelete';
 import AddType from '../components/types/AddType';
 import EditType from '../components/types/EditType';
 
