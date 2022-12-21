@@ -48,7 +48,7 @@ const ColorVariantBlock = ({pushVariants}) => {
         shoeSize:null,
         color:{nameColor:values.color.name, codeColor: values.color.hex},
         dimensions: null,
-        colors:[]
+        colors:[{nameColor: null, codeColor: null}]
       }
       if(values.color !== '' && values.reference !== '' && values.priceProduct !=='' && values.quantityStock !== '' && values.minOrderQuantity !== '' ){
         console.log(data)

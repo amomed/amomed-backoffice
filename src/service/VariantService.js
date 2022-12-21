@@ -39,4 +39,14 @@ export class VariantService {
         }
         
     }
-}
+
+    async deleteVariant(variantId){
+        let response = {}
+        try {
+            await Api.delete(`variant/delete/${variantId}`)
+        } catch (error) {
+            response.error = error
+            return response
+        }
+        
+    }}

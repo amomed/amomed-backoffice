@@ -48,6 +48,7 @@ const EditVariants = ({productId, setLazyParams, lazyParams, setToggleMenu}) => 
     const [options,setOptions]=useState(initialValues.colors)
     const [colors,setColors]=useState(COLORS)
     const [variantData,setVariantData]=useState([])
+    const [deletedVariant, setDeletedVariant]=useState([])
     const [loading , setLoading] = useState(true)
     const [disabled, setDisabled] = useState({
       variantType : true,
@@ -137,9 +138,17 @@ const EditVariants = ({productId, setLazyParams, lazyParams, setToggleMenu}) => 
 
     const removeVariant = (index) => {
       const _variants = [...variantData]
+      setDeletedVariant([...deletedVariant,variantData[index]._id])
       _variants.splice(index,1)
       setVariantData(_variants)
     }
+
+    const deleteVariantFromDatabase = async () => {
+      for (let i = 0; i<deletedVariant.length ; i++) {
+        await variantService.deleteVariant(deletedVariant[i])
+      }
+    }    
+    console.log(deletedVariant)
     // PUSH VARIANTS
     const pushVariants=(data)=>{
       setVariantData([...variantData,data])
@@ -184,12 +193,18 @@ const EditVariants = ({productId, setLazyParams, lazyParams, setToggleMenu}) => 
     }
 
     const onSave = async () => {
-      console.log(variantData)
       setLoading(true)
       const variantService = new VariantService()
       for (let i = 0 ; i<variantData.length ; i++) {
-        await variantService.editVariant(variantData[i]._id, variantData[i])
+        if(variantData[i]._id) {
+          await variantService.editVariant(variantData[i]._id, variantData[i])
+        } else {
+          const _variantData = {...variantData[i],product: productId}
+          console.log("variantData: ",_variantData)
+          await variantService.addVariant(_variantData)
+        }
       }
+      await deleteVariantFromDatabase()
       hideDialog()
       setLazyParams({
         first: lazyParams.first,
@@ -315,7 +330,6 @@ const EditVariants = ({productId, setLazyParams, lazyParams, setToggleMenu}) => 
           <div className='col-6'>
             {
               variantData.map((item,index)=>{
-               
                 return(
                   <div key={index.toString()} 
                     className='justify-content-between align-items-center flex w-full card'>
