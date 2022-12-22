@@ -9,6 +9,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup'
 import { FileUpload } from 'primereact/fileupload';
 import { ImageService } from '../../service/ImageService';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddBrand = ({categories,createSubCategory}) => {
     
@@ -66,7 +67,7 @@ const AddBrand = ({categories,createSubCategory}) => {
         const imageService = new ImageService()
         const {objectURL, name} = event.files[0]
         const blob = await fetch(objectURL).then(r => r.blob()); //get blob url
-        const url_image = await imageService.uploadImage(blob,`categories/${name}`) // upload to firebase and get url
+        const url_image = await imageService.uploadImage(blob,`brands/${name}${uuidv4()}`) // upload to firebase and get url
         const data = {
             nameUnderCategory:values.name,
             category: values.category,

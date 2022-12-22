@@ -96,7 +96,7 @@ const PreviewOrder = ({rowData}) => {
           text+= `couleur : ${selectedColor.nameColor} `
       
         return text
-      }
+    }
 
   return (
     <>

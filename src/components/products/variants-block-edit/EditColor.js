@@ -59,7 +59,7 @@ const EditColor = ({editVariant, variantData}) => {
       shoeSize:null,
       color:{nameColor:values.color.name, codeColor:values.color.hex},
       dimensions: null,
-      colors:[]
+      colors: []
     }
     if(values.color !== '' && values.reference !== '' && values.priceProduct !=='' && values.quantityStock !== '' && values.minOrderQuantity !== '' ){
       editVariant(variantData.index, _data)

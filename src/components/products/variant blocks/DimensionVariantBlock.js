@@ -237,7 +237,7 @@ const WithColor=({pushVariants})=>{
             return(
               <div key={index} className='justify-content-between align-items-center flex w-full'>
                 <div className='w-full flex align-items-center'>
-                  <div className='mr-5'><p>{item.variantValue} cm</p></div>
+                  <div className='mr-5'><p>{item.variantValue}</p></div>
                   <div className='flex mr-5 w-2'>
                     <div style={{height:20,width:20,backgroundColor:item.color.hex}} />
                     <p className='ml-1'>{item.color.name}</p>

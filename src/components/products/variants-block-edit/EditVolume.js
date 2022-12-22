@@ -197,8 +197,8 @@ const WithColor=({editVariant, variantData})=>{
           onChange={handleInputChange}
           disabled={options.length > 0}
           type={'number'}
-          placeholder='volume (ml)'/>
-          <label className='text-sm'>{'volume (ml)'}</label>
+          placeholder='volume'/>
+          <label className='text-sm'>{'volume'}</label>
         </div>
 
         <div className='mr-2 w-3'>
@@ -246,7 +246,7 @@ const WithColor=({editVariant, variantData})=>{
             return(
               <div key={index} className='justify-content-between align-items-center flex w-full'>
                 <div className='w-full flex align-items-center'>
-                  <div className='mr-5'><p>{values.variantValue} ml</p></div>
+                  <div className='mr-5'><p>{values.variantValue}</p></div>
                   <div className='flex mr-5 w-2'>
                     <div style={{height:20,width:20,backgroundColor:item.color.codeColor}} />
                     <p className='ml-1'>{item.color.nameColor}</p>
@@ -386,7 +386,7 @@ const WithoutColor=({ editVariant, variantData}) => {
           name='variantValue'
           onChange={handleInputChange}
           type={'number'}
-          placeholder='volume (ml)'/>
+          placeholder='volume'/>
           <label className='text-sm'>volume</label>
       </div>
 

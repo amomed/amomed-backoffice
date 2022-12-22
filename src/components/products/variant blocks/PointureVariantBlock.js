@@ -337,8 +337,8 @@ const WithoutColor=({pushVariants})=>{
       shoeSize:values.variantValue,
       color:null,
       dimensions: null,
-      colors: []
-    }
+      colors: []  
+  }
     
     if(values.variantValue !== '' && values.reference !== '' && values.priceProduct !== '' && values.quantityStock !== '' && values.minOrderQuantity !== ''){
       pushVariants(data)

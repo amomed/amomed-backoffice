@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 import { InputSwitch } from 'primereact/inputswitch';
 import { FileUpload } from 'primereact/fileupload';
 import { ImageService } from '../../service/ImageService';
-
+import { v4 as uuidv4 } from 'uuid';
 
 const EditBrand = ({categories,rowData,updateSubCategory}) => {
     const imageService = new ImageService()
@@ -62,7 +62,7 @@ const EditBrand = ({categories,rowData,updateSubCategory}) => {
     const myUploader = async(values,event) => {
         const files = event.files
         const blob = await fetch(files[0]?.objectURL).then(r => r.blob()); //get blob url
-        const category_url = await imageService.uploadImage(blob,`brands/${files[0].name}`) // upload to firebase and get url
+        const category_url = await imageService.uploadImage(blob,`brands/${files[0].name}${uuidv4()}`) // upload to firebase and get url
         const data = {
             nameUnderCategory: values.name,
             category: values.category,
