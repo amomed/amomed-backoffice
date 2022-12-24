@@ -229,9 +229,9 @@ const EditVariants = ({productId, setLazyParams, lazyParams, setToggleMenu}) => 
 
     // RENDER values VALUE
     const variantValue=(item)=>{
-      if(item?.dimensions !== null) return <span className='w-2'>{item?.dimensions} cm</span>
+      if(item?.dimensions !== null) return <span className='w-2'>{item?.dimensions}</span>
       else if(item?.size !== null) return <span className='w-2'>{item?.size}</span>
-      else if(item?.volume !== null) return <span className='w-2'>{item?.volume} ml</span>
+      else if(item?.volume !== null) return <span className='w-2'>{item?.volume}</span>
       else if(item?.shoeSize !== null) return <span className='w-2'>{item?.shoeSize}</span>
       else if(item?.color?.nameColor !== null) return <span className='w-2'>{item?.color?.nameColor}</span>
   }
