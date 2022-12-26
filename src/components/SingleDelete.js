@@ -5,11 +5,11 @@ import { Dialog } from 'primereact/dialog';
 
 const SingleDelete=({rowData,table, deleteProduct, _deleteCustomer,setToggleMenu})=> {
 
-const [deleteCategoryDialog, setDeleteCategorytDialog] = useState(false);
-const confirmDeleteCategory = () => setDeleteCategorytDialog(true) 
-const hideDeleteCategoryDialog = () => {
-    setToggleMenu(null)
-    setDeleteCategorytDialog(false) 
+const [deleteDialog, setDeleteDialog] = useState(false);
+const confirmDelete = () => setDeleteDialog(true) 
+const hideDeleteDialog = () => {
+    deleteProduct && setToggleMenu(null)
+    setDeleteDialog(false) 
 }
 
 const handleDelete = (_id) => {
@@ -17,7 +17,7 @@ const handleDelete = (_id) => {
         deleteProduct(_id)
     else if(_deleteCustomer)
         _deleteCustomer(_id)
-    hideDeleteCategoryDialog(_id)
+    hideDeleteDialog()
 
 
 }
@@ -32,9 +32,9 @@ const showDataName = () => {
 
 
 
-const deleteCategoryDialogFooter = (
+const deleteDialogFooter = (
     <>
-        <Button label="non" icon="pi pi-times" className="p-button-text" onClick={hideDeleteCategoryDialog} />
+        <Button label="non" icon="pi pi-times" className="p-button-text" onClick={hideDeleteDialog} />
         <Button label="oui" icon="pi pi-trash" className="p-button-text p-button-danger" 
                 onClick={()=> { handleDelete(rowData._id)}}/>
     </>
@@ -43,21 +43,18 @@ const deleteCategoryDialogFooter = (
 
 return (
     <>
-    {/* <Button icon="pi pi-trash" 
-    className="p-button-sm p-button-rounded p-button-text p-button-danger" 
-    onClick={() => confirmDeleteCategory()} /> */}
-        
+
     <div 
           className='align-items-center flex p-2 pl-3 pr-6 menu-child'
-          onClick={() => confirmDeleteCategory()}
+          onClick={() => confirmDelete()}
           >
               <i style={{color:'#f00'}} className='pi pi-trash'></i>
               <span className='uppercase ml-2' style={{color:'#f00'}}>supprimmer</span>
     </div>
 
-    <Dialog visible={deleteCategoryDialog} style={{ width: '450px' }} header="Confirmer" modal 
-        footer={deleteCategoryDialogFooter} 
-        onHide={hideDeleteCategoryDialog}>
+    <Dialog visible={deleteDialog} style={{ width: '450px' }} header="Confirmer" modal 
+        footer={deleteDialogFooter} 
+        onHide={hideDeleteDialog}>
         <div className="flex align-items-center justify-content-center"> 
         <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
             <div className="flex flex-column align-items-start justify-content-center">
@@ -65,7 +62,7 @@ return (
                 <span>{'cette action est irréversible'}</span>
         </div>
         </div>
-        </Dialog>
+    </Dialog>
     </>
   )
 }

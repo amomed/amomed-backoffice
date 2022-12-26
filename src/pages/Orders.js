@@ -53,7 +53,7 @@ const Orders = () => {
         rows: 10,
         page: 1,
         filters : {
-            date: new Date(), 
+            date: null, 
             status: null, 
             customer: null,
             numOrder: null

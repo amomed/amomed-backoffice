@@ -1,55 +1,96 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'primereact/button';
-
+import { Dialog } from 'primereact/dialog';
 
 const StatusMenu = ({rowData,setToggleMenu,toggleMenu, updateOrderStatus}) => {
 
-// MENU ITEMS
-const Items=()=>{
-
-  let filteredStatus = []
-  switch(rowData.status){
-    case 'EN COURS' : filteredStatus = ['ÉXPEDIÉ','ANNULÉE']; break;
-    case 'ÉXPEDIÉ' : filteredStatus = ['LIVRÉ']; break;
-    case 'LIVRÉ' : filteredStatus = ['RETOUR']; break;
-  }
-
-  const iconType = (st) => {
-    if(st === 'LIVRÉ'){
-      return 'pi pi-check-circle'
-    }else if(st === 'ANNULÉE'){
-      return 'pi pi-times-circle'
-    }else if(st === 'ÉXPEDIÉ'){
-      return 'pi pi-car'
-    }else if(st === 'RETOUR'){
-        return 'pi pi-arrow-right'
-    }else return 'pi pi-box'
-  }
-
-  const onStatusClicked = (status) => {
-    rowData.status = status
-    updateOrderStatus(rowData)
-    setToggleMenu(rowData._id === toggleMenu ? null : rowData._id )
-  }
-
-  return(
-    <>
-    {
-      filteredStatus.map(val=>{
-        return(
-          <div 
-          key={val} className='align-items-center flex p-2 pl-3 pr-6 menu-child'
-          onClick={() => onStatusClicked(val)}
-          >
-              <i className={iconType(val)}></i>
-              <span className='uppercase ml-2'>{val}</span>
-          </div>
-        )
-      })
+  // MENU ITEMS
+  const Items=()=>{
+    const [updateDialog, setUpdateDialog] = useState(false)
+    const [selectedStatus, setSelectedStatus] = useState(null)
+    const hideUpdateDialog = () => {
+      setUpdateDialog(false) 
+      setToggleMenu(null)
     }
-    </>
-  )
-}
+  
+
+    let filteredStatus = []
+    switch(rowData.status){
+      case 'EN COURS' : filteredStatus = ['ÉXPEDIÉ','ANNULÉE']; break;
+      case 'ÉXPEDIÉ' : filteredStatus = ['LIVRÉ']; break;
+      case 'LIVRÉ' : filteredStatus = ['RETOUR']; break;
+    }
+
+    const iconType = (st) => {
+      if(st === 'LIVRÉ'){
+        return 'pi pi-check-circle'
+      }else if(st === 'ANNULÉE'){
+        return 'pi pi-times-circle'
+      }else if(st === 'ÉXPEDIÉ'){
+        return 'pi pi-car'
+      }else if(st === 'RETOUR'){
+          return 'pi pi-arrow-right'
+      }else return 'pi pi-box'
+    }
+
+    const onStatusClicked = () => {
+      rowData.status = selectedStatus
+      updateOrderStatus(rowData)
+      setToggleMenu(rowData._id === toggleMenu ? null : rowData._id )
+    }
+
+    const updateDialogFooter = () => {
+        return (
+          <>
+            <Button label="non" icon="pi pi-times" className="p-button-text" onClick={hideUpdateDialog} />
+            <Button label="oui" icon="pi pi-check" className="p-button-text p-button-success" 
+                    onClick={()=> { onStatusClicked()}}/>
+          </>
+        )
+    }
+
+    const DialogConfirmation = () => {
+      return (
+        <>
+        <Dialog visible={updateDialog} style={{ width: '450px' }} header="Confirmer" modal 
+        footer={updateDialogFooter} 
+        onHide={hideUpdateDialog}>
+        <div className="flex align-items-center justify-content-center"> 
+        <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+            <div className="flex flex-column align-items-start justify-content-center">
+                <span className='mt-2'>êtes-vous sûr de vouloir <b>{selectedStatus}</b> cette commande</span>
+        </div>
+        </div>
+      </Dialog>
+        </>
+      )
+
+    }
+  
+    return(
+      <>
+      {
+        filteredStatus.map(val=>{
+          return(
+          <>
+            {DialogConfirmation()}
+            <div 
+            key={val} className='align-items-center flex p-2 pl-3 pr-6 menu-child'
+            onClick={() => {
+              setSelectedStatus(val)
+              setUpdateDialog(true)
+             }}
+            >
+                <i className={iconType(val)}></i>
+                <span className='uppercase ml-2'>{val}</span>
+            </div>
+            </> 
+          )
+        })
+      }
+      </>
+    )
+  }
 
   return (
     <>
