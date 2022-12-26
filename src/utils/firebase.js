@@ -9,6 +9,6 @@ const firebaseConfig = {
     messagingSenderId: "322175485460",
     appId: "1:322175485460:web:05e9395b6ca7da553c4901",
     measurementId: "G-D5XEWDBFZS"
-  };
-const app = initializeApp(firebaseConfig);
+};
+export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);

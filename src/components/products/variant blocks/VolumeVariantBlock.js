@@ -185,7 +185,6 @@ const WithColor=({pushVariants})=>{
           name='variantValue'
           onChange={handleInputChange}
           disabled={options.length > 0}
-          type={'number'}
           placeholder='volume'/>
           <label className='text-sm'>{'volume'}</label>
         </div>
@@ -361,7 +360,6 @@ const WithoutColor=({pushVariants})=>{
           value={values.variantValue} 
           name='variantValue'
           onChange={handleInputChange}
-          type={'number'}
           placeholder='volume'/>
           <label className='text-sm'>volume</label>
       </div>
