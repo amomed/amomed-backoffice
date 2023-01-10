@@ -7,7 +7,7 @@ import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 
 const PreviewOrder = ({rowData}) => {
-    const {numOrder, customer, date, quantityTotal, totalPriceOrder, status, orderDetail } = rowData
+    const {numOrder, customer, date, quantityTotal, totalPriceOrder, status, orderDetail, urlFacture } = rowData
     const [dialogVisibility, setDialogVisibility] = useState(false);
     const hideDialog = () => setDialogVisibility(false)
     const openModal = () => setDialogVisibility(true)
@@ -18,16 +18,9 @@ const PreviewOrder = ({rowData}) => {
             label: 'Imprimer BL',
             icon: 'pi pi-file',
             command: () => {
-                  alert('clicked')
+                window.open(urlFacture)
             }
         },
-        {
-            label: 'Imprimer facture',
-            icon: 'pi pi-print',
-            command: () => {
-                  alert('clicked')
-            }
-        }
     ];
 
     // ORDER DATE

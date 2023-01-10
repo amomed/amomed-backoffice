@@ -197,16 +197,11 @@ const Orders = () => {
                     <>
                         <PreviewOrder rowData={rowData} />
                         <Button tooltip='Imprimer BL' 
-                        tooltipOptions={{position:'bottom'}}
+                                onClick={() => {window.open(rowData.urlFacture)}}
+                                tooltipOptions={{position:'bottom'}}
                                 type="button" 
                                 icon="pi pi-file" 
                                 className="p-button-sm p-button-rounded p-button-outlined p-button-text p-button-success"/>
-                        <Button tooltip='Imprimer facture'
-                        onClick={() => {window.open(rowData.urlFacture)}}
-                        tooltipOptions={{position:'bottom'}}
-                                type="button" 
-                                icon="pi pi-print" 
-                                className="p-button-sm p-button-rounded p-button-outlined p-button-text p-button-warning"/>
                     </>
                 }
 
